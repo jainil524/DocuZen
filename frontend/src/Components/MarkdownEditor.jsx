@@ -1,12 +1,24 @@
 import {
     MDXEditor,
 
-    headingsPlugin, listsPlugin, tablePlugin, quotePlugin, thematicBreakPlugin,
-    markdownShortcutPlugin, toolbarPlugin, sandpackPlugin, codeMirrorPlugin, codeBlockPlugin,
-    diffSourcePlugin, linkPlugin, linkDialogPlugin,
+    headingsPlugin,
+    listsPlugin,
+    tablePlugin,
+    quotePlugin,
+    thematicBreakPlugin,
+    markdownShortcutPlugin,
+    toolbarPlugin,
+    sandpackPlugin,
+    codeMirrorPlugin,
+    codeBlockPlugin,
+    diffSourcePlugin,
+    linkPlugin,
+    linkDialogPlugin,
 
-    InsertCodeBlock, InsertSandpack, InsertImage, InsertTable,
-
+    InsertCodeBlock,
+    InsertSandpack,
+    InsertImage,
+    InsertTable,
     UndoRedo,
     BoldItalicUnderlineToggles,
     BlockTypeSelect,
@@ -17,12 +29,12 @@ import {
     ChangeCodeMirrorLanguage,
     ShowSandpackInfo
 } from '@mdxeditor/editor';
-
+import PropTypes from 'prop-types';
 import '@mdxeditor/editor/style.css';
 
 import { useRef } from 'react';
 
-function MarkdownEditor() {
+function MarkdownEditor({ markDownText }) {
 
     const MDXEditorRef = useRef(null);
 
@@ -53,12 +65,12 @@ function MarkdownEditor() {
         ]
     }
     return (
-        <>
+        <div className='markDown'>
             <button onClick={() => console.log(MDXEditorRef.current?.getMarkdown())}>Get Text</button>
 
             <MDXEditor
                 ref={MDXEditorRef}
-                markdown="# Hello world"
+                markdown={markDownText}
                 plugins={[
                     headingsPlugin(),
                     listsPlugin(),
@@ -96,15 +108,18 @@ function MarkdownEditor() {
                                 <InsertImage />
                                 <InsertTable />
                                 <DiffSourceToggleWrapper>
-                                    <UndoRedo />
                                 </DiffSourceToggleWrapper>
                             </>
                         )
                     })
                 ]}
             />
-        </>
+        </div>
     );
+}
+
+MarkdownEditor.propTypes = {
+    markDownText: PropTypes.string.isRequired
 }
 
 export default MarkdownEditor;
