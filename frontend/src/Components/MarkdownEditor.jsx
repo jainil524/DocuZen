@@ -1,23 +1,31 @@
 import {
     MDXEditor,
-    headingsPlugin,
-    listsPlugin,
-    quotePlugin,
-    thematicBreakPlugin,
-    markdownShortcutPlugin,
+
+    headingsPlugin, listsPlugin, tablePlugin, quotePlugin, thematicBreakPlugin,
+    markdownShortcutPlugin, toolbarPlugin, sandpackPlugin, codeMirrorPlugin, codeBlockPlugin,
+    diffSourcePlugin, linkPlugin, linkDialogPlugin,
+
+    InsertCodeBlock, InsertSandpack, InsertImage, InsertTable,
+
     UndoRedo,
     BoldItalicUnderlineToggles,
-    toolbarPlugin,
     BlockTypeSelect,
-    CodeToggle, InsertFrontmatter,
+    CodeToggle,
     CreateLink,
-    DiffSourceToggleWrapper, codeBlockPlugin, InsertCodeBlock, InsertSandpack,
-    InsertImage, sandpackPlugin, codeMirrorPlugin, ConditionalContents, ChangeCodeMirrorLanguage, ShowSandpackInfo
+    DiffSourceToggleWrapper,
+    ConditionalContents,
+    ChangeCodeMirrorLanguage,
+    ShowSandpackInfo
 } from '@mdxeditor/editor';
 
 import '@mdxeditor/editor/style.css';
 
+import { useRef } from 'react';
+
 function MarkdownEditor() {
+
+    const MDXEditorRef = useRef(null);
+
     const defaultSnippetContent = `
             export default function App() {
             return (
@@ -45,47 +53,57 @@ function MarkdownEditor() {
         ]
     }
     return (
-        <MDXEditor
-            markdown="# Hello world"
-            plugins={[
-                headingsPlugin(),
-                listsPlugin(),
-                quotePlugin(),
-                thematicBreakPlugin(),
-                markdownShortcutPlugin(),
+        <>
+            <button onClick={() => console.log(MDXEditorRef.current?.getMarkdown())}>Get Text</button>
 
-                // the default code block language to insert when the user clicks the "insert code block" button
-                codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
-                sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-                codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS' } }),
-                toolbarPlugin({
-                    toolbarContents: () => (
-                        <>
-                            <ConditionalContents
-                                options={[
-                                    { when: (editor) => editor?.editorType === 'codeblock', contents: () => <ChangeCodeMirrorLanguage /> },
-                                    { when: (editor) => editor?.editorType === 'sandpack', contents: () => <ShowSandpackInfo /> },
-                                    {
-                                        fallback: () => (<>
-                                            <InsertCodeBlock />
-                                            <InsertSandpack />
-                                        </>)
-                                    }
-                                ]}
-                            />
-                            <UndoRedo />
-                            <InsertFrontmatter />
-                            <BoldItalicUnderlineToggles />
-                            <BlockTypeSelect />
-                            <CodeToggle />
-                            <CreateLink />
-                            <DiffSourceToggleWrapper />
-                            <InsertImage />
-                        </>
-                    )
-                })
-            ]}
-        />
+            <MDXEditor
+                ref={MDXEditorRef}
+                markdown="# Hello world"
+                plugins={[
+                    headingsPlugin(),
+                    listsPlugin(),
+                    quotePlugin(),
+                    thematicBreakPlugin(),
+                    markdownShortcutPlugin(),
+                    tablePlugin(),
+                    linkPlugin(),
+                    linkDialogPlugin(),
+                    diffSourcePlugin({ diffMarkdown: '', viewMode: 'rich-text' }),
+                    // the default code block language to insert when the user clicks the "insert code block" button
+                    codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
+                    sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
+                    codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS' } }),
+                    toolbarPlugin({
+                        toolbarContents: () => (
+                            <>
+                                <ConditionalContents
+                                    options={[
+                                        { when: (editor) => editor?.editorType === 'codeblock', contents: () => <ChangeCodeMirrorLanguage /> },
+                                        { when: (editor) => editor?.editorType === 'sandpack', contents: () => <ShowSandpackInfo /> },
+                                        {
+                                            fallback: () => (<>
+                                                <InsertCodeBlock />
+                                                <InsertSandpack />
+                                            </>)
+                                        }
+                                    ]}
+                                />
+                                <UndoRedo />
+                                <BoldItalicUnderlineToggles />
+                                <BlockTypeSelect />
+                                <CodeToggle />
+                                <CreateLink />
+                                <InsertImage />
+                                <InsertTable />
+                                <DiffSourceToggleWrapper>
+                                    <UndoRedo />
+                                </DiffSourceToggleWrapper>
+                            </>
+                        )
+                    })
+                ]}
+            />
+        </>
     );
 }
 
