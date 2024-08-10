@@ -27,35 +27,6 @@ body {
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.484);
 }
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-  z-index: -1;
-  background: rgb(23, 255, 54);
-  top: 3%;
-  left: 35%;
-}
-
-body::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-  z-index: -1;
-
-  background: rgb(255, 135, 23);
-  top: 77%;
-  left: 55%;
-}
-
 .login-container .form-title {
   padding: 0rem 0.2rem 1rem 0.2rem;
   text-align: center;
@@ -191,36 +162,6 @@ body {
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.484);
 }
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-  z-index: -1;
-  background: rgb(23, 255, 54);
-  animation: shuttleLeftAnimation 20s linear infinite;
-  top: 3%;
-  left: 35%;
-}
-
-body::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-  z-index: -1;
-
-  animation: shuttleRightAnimation 20s linear infinite;
-  background: rgb(255, 135, 23);
-  top: 77%;
-  left: 55%;
-}
 
 .login-container .form-title {
   padding: 0rem 0.2rem 1rem 0.2rem;
@@ -329,32 +270,40 @@ button {
 }
 
 @keyframes shuttleLeftAnimation {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   15% {
     transform: translate(0px, 10px);
   }
+
   75% {
     transform: translate(20px, 10px);
   }
+
   50% {
     transform: translate(20px, -20px);
   }
 }
 
 @keyframes shuttleRightAnimation {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   15% {
     transform: translate(12px, 15px);
   }
+
   75% {
     transform: translate(20px, -15px);
   }
+
   50% {
     transform: translate(30px, 20px);
   }
