@@ -15,7 +15,6 @@ function getResponseFormat(API_CODE) {
 }
 
 function getCode(Path) {
-
   let code = fsSync.readFileSync(Path, 'utf8');
 
   return code;
@@ -23,9 +22,7 @@ function getCode(Path) {
 }
 
 async function run() {
-
   const code = getCode('./code.txt');
-
   const prompt = getResponseFormat(code);
 
   const result = await model.generateContent(prompt);
@@ -35,7 +32,6 @@ async function run() {
   const filePath = 'documentation.txt';
   await fs.writeFile(filePath, text);
   console.log("text");
-
 }
 
 run();

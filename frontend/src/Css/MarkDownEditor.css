@@ -1,0 +1,18 @@
+.markDown {
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.mdx-editor {
+    height: 100%;
+    width: 100%;
+}
+
+.copy-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+}

@@ -1,14 +1,12 @@
-// src/App.js
-
 import MarkdownEditor from './Components/MarkdownEditor';
 import CodeEditor from './Components/CodeEditor';
+import './App.css';
 
-const markdownText = `
-`;
+const markdownText = ``;
 
 const App = () => {
   return (
-    <div className="App" style={{ display: 'flex', padding: '0rem 2rem' }}>
+    <div className="App">
       <div>
         <CodeEditor />
       </div>
