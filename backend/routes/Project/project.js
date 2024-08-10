@@ -5,6 +5,7 @@ import {
     createDocument,
     saveDocument,
     getAllDocuments,
+    getMarkdown,
     deleteDocument,
     getDocumentById
  } from '../../controller/project/project.controller.js';
@@ -12,6 +13,7 @@ import {
 const project = Router();
 
 
+project.post("/generate-document", validateUser , getMarkdown);
 project.post("/create-document", validateUser , createDocument);
 project.post("/edit-document", validateUser , saveDocument);
 project.post("/delete-document", validateUser , deleteDocument);

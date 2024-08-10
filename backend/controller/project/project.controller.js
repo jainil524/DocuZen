@@ -6,8 +6,27 @@ import Project from '../../models/project/project.model.js';
 import User from '../../models/user/user.model.js';
 import generateUUID from '../../utils/generateUUID.js';
 
+import { generateMarkdown } from '../../gemin.js';
+
 dotenv.config();
 dbConnect();
+
+// get markdown content from the API document
+const getMarkdown = asyncHandler(async (req, res) => {
+    const { code } = req.body;
+    console.log(req.body);
+    
+    try {
+        const markdownContent = await generateMarkdown(code);
+
+        res.status(200).json({ status: "success", data: { message: "Markdown content generated successfully", markdownContent: markdownContent }, hasData: true });
+        return;
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ status: "error", data: { message: 'Internal Server error' }, hasData: false });
+        return;
+    }
+});
 
 // insert the API document into the database
 const createDocument = asyncHandler(async (req, res) => {
@@ -103,7 +122,7 @@ const deleteDocument = asyncHandler(async (req, res) => {
         console.log(documentId, userId);
 
         // check if user exists or not
-        const Document = await Project.findOne({ documentId: documentId});
+        const Document = await Project.findOne({ documentId: documentId });
 
         if (!Document || Document.length === 0) {
             res.status(404).json({ status: "error", data: { message: 'Document not found' }, hasData: false });
@@ -167,5 +186,6 @@ export {
     saveDocument,
     getAllDocuments,
     deleteDocument,
+    getMarkdown,
     getDocumentById
 }

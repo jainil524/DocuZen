@@ -35,9 +35,9 @@ app.use('/api/admin', validateUser, admin);
 app.use('/api/projects', validateUser, project);
 
 // for google login
-// app.get("/gl",(req,res)=>{
-//     res.sendFile(__dirname + "/login.html");
-// })
+app.get("/gl",(req,res)=>{
+    res.sendFile(__dirname + "/login.html");
+})
 
 app.listen(PORT, () => {
     console.log(`Example app listening at http://localhost:${PORT}`);

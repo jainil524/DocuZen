@@ -145,9 +145,10 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
         if (user.googleId != null) {
             const token = generateJWTToken(user);
             // Generate JWT token for user authentication
-            return res.json({ status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
+            res.cookie('token', token, { httpOnly: true });
+            res.redirect("http://localhost:5173/");
+            // { status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
         }
-        login(req, res);
         console.log(user);
     } catch (error) {
         console.error('Error:', error); // Log the error message for debugging

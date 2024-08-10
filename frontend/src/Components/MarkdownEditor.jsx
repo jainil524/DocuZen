@@ -1,3 +1,4 @@
+import React, {useEffect, useRef} from 'react';
 import {
     MDXEditor,
 
@@ -33,10 +34,15 @@ import PropTypes from 'prop-types';
 import '@mdxeditor/editor/style.css';
 import '../Css/MarkdownEditor.css';
 
-import { useRef } from 'react';
+import '../App.css'; 
 
-function MarkdownEditor({ markDownText }) {
+function MarkdownEditor({ markDownText, setMDXRef }) {
     const MDXEditorRef = useRef(null);
+
+    useEffect(() => {
+        setMDXRef(MDXEditorRef.current);
+    },[MDXEditorRef]);
+
 
     const defaultSnippetContent = `
             export default function App() {
@@ -76,7 +82,7 @@ function MarkdownEditor({ markDownText }) {
             <MDXEditor
                 className="mdx-editor"
                 ref={MDXEditorRef}
-                markdown={markDownText}
+                markdown="## sdfsdf"
                 plugins={[
                     headingsPlugin(),
                     listsPlugin(),

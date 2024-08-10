@@ -1,16 +1,20 @@
-import MarkdownEditor from './Components/MarkdownEditor';
-import CodeEditor from './Components/CodeEditor';
-import './App.css';
+import React from 'react';
 
-const markdownText = ``;
+import ScreenWrapper from './Components/ScreenWrapper';
+import { Route, Routes } from 'react-router-dom';
+import Login from "./Login"
+import Register from './Register';
+
+
 
 const App = () => {
   return (
     <div className="App">
-      <div>
-        <CodeEditor />
-      </div>
-      <MarkdownEditor markDownText={markdownText} />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Register />} />
+    </Routes>
+      <ScreenWrapper />
     </div>
   );
 };
