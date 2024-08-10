@@ -108,8 +108,8 @@ function MarkdownEditor({ markDownText }) {
                                 />
                                 <UndoRedo />
                                 <BoldItalicUnderlineToggles />
-                                <BlockTypeSelect />
                                 <CodeToggle />
+                                <BlockTypeSelect />
                                 <CreateLink />
                                 <InsertImage />
                                 <InsertTable />

@@ -16,3 +16,9 @@
     right: 2rem;
     z-index: 1000;
 }
+
+button._selectTrigger_uazmk_305,
+button._selectTrigger_uazmk_306,
+button._selectTrigger_uazmk_307:not(.mdxeditor-toolbar button) {
+    display: none;
+}
