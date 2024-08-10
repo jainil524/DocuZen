@@ -10,11 +10,12 @@ import Register from './Register';
 const App = () => {
   return (
     <div className="App">
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/login" element={<Register />} />
-    </Routes>
-      <ScreenWrapper />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path='/' element={<ScreenWrapper />} />
+      </Routes>
+
     </div>
   );
 };

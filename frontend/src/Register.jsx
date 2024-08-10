@@ -1,4 +1,3 @@
-import React from 'react'
 import './Css/register.css'
 
 function Register() {
@@ -6,7 +5,7 @@ function Register() {
     <>
       <div className="login-container">
         <div className="form-title">
-          <h1>My Login</h1>
+          <h1>Register</h1>
         </div>
         <form action="">
           <div className="input-container">
@@ -23,7 +22,7 @@ function Register() {
             <label htmlFor="email">Email</label>
             <input
               type="email"
-              autocomplete="email"
+              autoComplete="email"
               placeholder="Enter Your Email"
               name="email"
               id="email"
@@ -34,7 +33,7 @@ function Register() {
             <label htmlFor="password">Password</label>
             <input
               type="password"
-              autocomplete="current-password"
+              autoComplete="current-password"
               placeholder="Enter Your Password"
               name="password"
               id="password"
@@ -43,10 +42,10 @@ function Register() {
           </div>
           <div className="btn-container">
             <div className="submit-btn">
-              <button type="button" id="login">Login</button>
+              <button type="button" id="login">Register</button>
             </div>
             <div className="orsignuptext">
-              <span> or signin with </span>
+              <span> or sign in with </span>
               <i></i>
             </div>
             <div className="option-btn">
@@ -82,7 +81,7 @@ function Register() {
           </div>
           <div className="redirect-link">
             <div>
-              <p>Don't Have Account? <a href="./register.html">Register</a></p>
+              <p>Don&apos;t Have Account? <a href="./register.html">Register</a></p>
             </div>
           </div>
         </form>

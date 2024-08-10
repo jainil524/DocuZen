@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     MDXEditor,
 
@@ -34,14 +34,15 @@ import PropTypes from 'prop-types';
 import '@mdxeditor/editor/style.css';
 import '../Css/MarkdownEditor.css';
 
-import '../App.css'; 
+import '../App.css';
 
 function MarkdownEditor({ markDownText, setMDXRef }) {
     const MDXEditorRef = useRef(null);
+    console.log(markDownText);
 
     useEffect(() => {
-        setMDXRef(MDXEditorRef.current);
-    },[MDXEditorRef]);
+        setMDXRef(MDXEditorRef);
+    }, [MDXEditorRef]);
 
 
     const defaultSnippetContent = `
@@ -82,7 +83,7 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
             <MDXEditor
                 className="mdx-editor"
                 ref={MDXEditorRef}
-                markdown="## sdfsdf"
+                markdown={markDownText}
                 plugins={[
                     headingsPlugin(),
                     listsPlugin(),
@@ -96,7 +97,7 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
                     // the default code block language to insert when the user clicks the "insert code block" button
                     codeBlockPlugin({ defaultCodeBlockLanguage: 'json' }),
                     sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-                    codeMirrorPlugin({ codeBlockLanguages: { json: "JavaScript" } }),
+                    codeMirrorPlugin({ codeBlockLanguages: { json: "JavaScript", js: "Javascript" } }),
                     toolbarPlugin({
                         toolbarContents: () => (
                             <>
@@ -132,7 +133,8 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
 }
 
 MarkdownEditor.propTypes = {
-    markDownText: PropTypes.string.isRequired
+    markDownText: PropTypes.string.isRequired,
+    setMDXRef: PropTypes.func.isRequired
 }
 
 export default MarkdownEditor;

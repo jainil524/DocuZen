@@ -1,6 +1,7 @@
 import React from 'react'
 
 import './Css/login.css'
+import { Link } from 'react-router-dom'
 
 function Login() {
   return (
@@ -14,7 +15,7 @@ function Login() {
             <label htmlFor="">Email</label>
             <input
               type="email"
-              autocomplete="email"
+              autoComplete="email"
               placeholder="Enter Your Email"
               name="email"
               id="email"
@@ -25,7 +26,7 @@ function Login() {
             <label htmlFor="">Password</label>
             <input
               type="password"
-              autocomplete="current-password"
+              autoComplete="current-password"
               placeholder="Enter Your Password"
               name="password"
               id="password"
@@ -73,7 +74,7 @@ function Login() {
           </div>
           <div className="redirect-link">
             <div>
-              <p>Don't Have Account? <a href="./register.html">Register</a></p>
+              <p>Don&apos;t Have Account? <Link to="/register">Register</Link></p>
             </div>
           </div>
         </form>
