@@ -1,20 +1,20 @@
-## register (Register a new user)
+## Register (Create a new user)
 **Endpoint:** `/api/auth/register`  
 **Method:** `POST`  
 **Header:** `null`
 
 ### Request Body
-- **name** (String, **REQUIRED**): User's name.
-- **address** (String, **REQUIRED**): User's address.
-- **city** (String, **REQUIRED**): User's city.
-- **country** (String, **REQUIRED**): User's country.
-- **phone** (String, **REQUIRED**): User's phone number.
-- **password** (String, **REQUIRED**): User's password.
-- **email** (String, **REQUIRED**): User's email address.
+- **name** (String, REQUIRED): The user's full name.
+- **address** (String, REQUIRED): The user's address.
+- **city** (String, REQUIRED): The user's city.
+- **country** (String, REQUIRED): The user's country.
+- **phone** (String, REQUIRED): The user's phone number.
+- **password** (String, REQUIRED): The user's password.
+- **email** (String, REQUIRED): The user's email address.
 
 ### Responses
 - **201 - Created**
-    ```json
+    ```js
     {
       "status": "success",
       "data": {
@@ -25,7 +25,7 @@
     ```
 
 - **400 - Bad Request**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
@@ -37,87 +37,43 @@
 
 ---
 
-## tokenValidate (Validate token)
-**Endpoint:** `/api/auth/tokenValidate`  
-**Method:** `GET`  
-**Header:** `Authorization: Bearer <token>`
-
-### Request Body
-- **null**
-
-### Responses
-- **200 - OK**
-    ```json
-    {
-      "status": "success",
-      "data": {
-        "message": "Token is valid"
-      },
-      "hasData": false
-    }
-    ```
-
-- **401 - Unauthorized**
-    ```json
-    {
-      "status": "error",
-      "data": {
-        "message": "Access denied"
-      },
-      "hasData": false
-    }
-    ```
-
-- **401 - Unauthorized**
-    ```json
-    {
-      "status": "error",
-      "data": {
-        "message": "Invalid token"
-      },
-      "hasData": false
-    }
-    ```
-
----
-
-## login (User login)
+## Login (Authenticate user)
 **Endpoint:** `/api/auth/login`  
 **Method:** `POST`  
 **Header:** `null`
 
 ### Request Body
-- **email** (String, **REQUIRED**): User's email address.
-- **password** (String, **REQUIRED**): User's password.
+- **email** (String, REQUIRED): The user's email address.
+- **password** (String, REQUIRED): The user's password.
 
 ### Responses
 - **200 - OK**
-    ```json
+    ```js
     {
       "status": "success",
       "data": {
         "message": "Login successful",
-        "role": "user", 
-        "isAdmin": false, 
-        "token": "<jwt_token>"
+        "role": "user",
+        "isAdmin": false,
+        "token": "JWT_TOKEN"
       },
       "hasData": true
     }
     ```
 
 - **401 - Unauthorized**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
-        "message": "No user founded with this credentials"
+        "message": "No user founded with this credentials" 
       },
       "hasData": false
     }
     ```
 
 - **401 - Unauthorized**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
@@ -128,7 +84,7 @@
     ```
 
 - **500 - Internal Server Error**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
@@ -140,83 +96,55 @@
 
 ---
 
-## googleLogin (Google login redirect)
-**Endpoint:** `/api/auth/googleLogin`  
+## Token Validate (Validate JWT token)
+**Endpoint:** `/api/auth/tokenValidate`  
 **Method:** `GET`  
-**Header:** `null`
-
-### Request Body
-- **null**
-
-### Responses
-- **302 - Found**
-    - Redirects to Google OAuth2 authorization endpoint.
-
----
-
-## googleLoginCallback (Google login callback)
-**Endpoint:** `/api/auth/googleLogin`  
-**Method:** `GET`  
-**Header:** `null`
-
-### Request Body
-- **null**
+**Header:** `Authorization: Bearer JWT_TOKEN`
 
 ### Responses
 - **200 - OK**
-    ```json
+    ```js
     {
       "status": "success",
       "data": {
-        "message": "Google login successfull",
-        "role": "user",
-        "token": "<jwt_token>"
+        "message": "Token is valid"
       },
-      "hasData": true
+      "hasData": false
     }
     ```
 
-- **302 - Found**
-    - Redirects to login page on error.
-
----
-
-## googleData (Google login data)
-**Endpoint:** `/api/auth/googleData`  
-**Method:** `POST`  
-**Header:** `null`
-
-### Request Body
-- **profile** (Object, **REQUIRED**): Google user profile data.
-
-### Responses
-- **200 - OK**
-    ```json
+- **401 - Unauthorized**
+    ```js
     {
-      "status": "success",
+      "status": "error",
       "data": {
-        "message": "Google login successfull",
-        "profile": {
-          // Google user profile data
-        }
+        "message": "Access denied"
       },
-      "hasData": true
+      "hasData": false
+    }
+    ```
+
+- **401 - Unauthorized**
+    ```js
+    {
+      "status": "error",
+      "data": {
+        "message": "Invalid token"
+      },
+      "hasData": false
     }
     ```
 
 ---
 
-## logout (Logout user)
+## Logout (Log out user)
 **Endpoint:** `/api/auth/logout`  
 **Method:** `POST`  
-**Header:** `Authorization: Bearer <token>`
-
-### Request Body
-- **null**
+**Header:** `Authorization: Bearer JWT_TOKEN`
 
 ### Responses
 - **200 - OK**
-    ```json
+    ```js
     {
       "status": "success",
       "data": {
@@ -228,18 +156,79 @@
 
 ---
 
-## changePassword (Change user password)
-**Endpoint:** `/api/auth/changePassword`  
-**Method:** `POST`  
-**Header:** `Authorization: Bearer <token>`
+## Google Login (Initiate Google login)
+**Endpoint:** `/api/auth/googleLogin`  
+**Method:** `GET`  
+**Header:** `null`
+
+### Responses
+- **302 - Found**
+  - Redirects to Google OAuth2 authorization page.
+
+---
+
+## Google Login Callback (Handle Google login callback)
+**Endpoint:** `/api/auth/googleLogin`  
+**Method:** `GET`  
+**Header:** `null`
 
 ### Request Body
-- **oldPassword** (String, **REQUIRED**): User's current password.
-- **newPassword** (String, **REQUIRED**): User's new password.
+- **code** (String, REQUIRED): The authorization code received from Google.
 
 ### Responses
 - **200 - OK**
-    ```json
+    ```js
+    {
+      "status": "success",
+      "data": {
+        "message": "Google login successfull",
+        "role": "user",
+        "token": "JWT_TOKEN"
+      },
+      "hasData": true
+    }
+    ```
+
+- **302 - Found**
+  - Redirects to login page on error.
+
+---
+
+## Google Data (Get Google profile data)
+**Endpoint:** `/api/auth/googleData`  
+**Method:** `POST`  
+**Header:** `Authorization: Bearer JWT_TOKEN`
+
+### Request Body
+- **profile** (Object, REQUIRED): The Google profile data.
+
+### Responses
+- **200 - OK**
+    ```js
+    {
+      "status": "success",
+      "data": {
+        "message": "Google login successfull",
+        "profile": { /* Google profile data */ }
+      },
+      "hasData": true
+    }
+    ```
+
+---
+
+## Change Password (Update user's password)
+**Endpoint:** `/api/auth/changePassword`  
+**Method:** `POST`  
+**Header:** `Authorization: Bearer JWT_TOKEN`
+
+### Request Body
+- **oldPassword** (String, REQUIRED): The user's current password.
+- **newPassword** (String, REQUIRED): The user's new password.
+
+### Responses
+- **200 - OK**
+    ```js
     {
       "status": "success",
       "data": {
@@ -250,7 +239,7 @@
     ```
 
 - **401 - Unauthorized**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
@@ -261,7 +250,7 @@
     ```
 
 - **404 - Not Found**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
@@ -273,17 +262,17 @@
 
 ---
 
-## deleteAccount (Delete user account)
+## Delete Account (Delete user account)
 **Endpoint:** `/api/auth/deleteAccount`  
-**Method:** `POST`  
-**Header:** `Authorization: Bearer <token>`
+**Method:** `DELETE`  
+**Header:** `Authorization: Bearer JWT_TOKEN`
 
 ### Request Body
-- **password** (String, **REQUIRED**): User's password.
+- **password** (String, REQUIRED): The user's current password.
 
 ### Responses
 - **200 - OK**
-    ```json
+    ```js
     {
       "status": "success",
       "data": {
@@ -294,7 +283,7 @@
     ```
 
 - **401 - Unauthorized**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
@@ -305,7 +294,7 @@
     ```
 
 - **404 - Not Found**
-    ```json
+    ```js
     {
       "status": "error",
       "data": {
@@ -315,4 +304,4 @@
     }
     ```
 
----
+--- 
