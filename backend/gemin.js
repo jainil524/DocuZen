@@ -27,9 +27,7 @@ function getCode(Path) {
 }
 
 async function run() {
-
   const code = getCode('./code.txt');
-
   const prompt = getResponseFormat(code);
 
   const result = await model.generateContent(prompt);
@@ -39,7 +37,6 @@ async function run() {
   const filePath = 'documentation.txt';
   await fs.writeFile(filePath, text);
   console.log("text");
-
 }
 
 run();

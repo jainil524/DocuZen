@@ -31,11 +31,11 @@ import {
 } from '@mdxeditor/editor';
 import PropTypes from 'prop-types';
 import '@mdxeditor/editor/style.css';
+import '../Css/MarkdownEditor.css';
 
 import { useRef } from 'react';
 
 function MarkdownEditor({ markDownText }) {
-
     const MDXEditorRef = useRef(null);
 
     const defaultSnippetContent = `
@@ -64,11 +64,17 @@ function MarkdownEditor({ markDownText }) {
             },
         ]
     }
+
+    const copyText = () => {
+        const code = MDXEditorRef.current?.getMarkdown();
+        console.log(code);
+        navigator.clipboard.writeText(code);
+    }
+
     return (
         <div className='markDown'>
-            <button onClick={() => console.log(MDXEditorRef.current?.getMarkdown())}>Get Text</button>
-
             <MDXEditor
+                className="mdx-editor"
                 ref={MDXEditorRef}
                 markdown={markDownText}
                 plugins={[
@@ -82,9 +88,9 @@ function MarkdownEditor({ markDownText }) {
                     linkDialogPlugin(),
                     diffSourcePlugin({ diffMarkdown: '', viewMode: 'rich-text' }),
                     // the default code block language to insert when the user clicks the "insert code block" button
-                    codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
+                    codeBlockPlugin({ defaultCodeBlockLanguage: 'json' }),
                     sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-                    codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS' } }),
+                    codeMirrorPlugin({ codeBlockLanguages: { json: "JavaScript" } }),
                     toolbarPlugin({
                         toolbarContents: () => (
                             <>
@@ -102,8 +108,8 @@ function MarkdownEditor({ markDownText }) {
                                 />
                                 <UndoRedo />
                                 <BoldItalicUnderlineToggles />
-                                <BlockTypeSelect />
                                 <CodeToggle />
+                                <BlockTypeSelect />
                                 <CreateLink />
                                 <InsertImage />
                                 <InsertTable />
@@ -114,6 +120,7 @@ function MarkdownEditor({ markDownText }) {
                     })
                 ]}
             />
+            <button onClick={copyText} className='copy-btn'>Get Text</button>
         </div>
     );
 }

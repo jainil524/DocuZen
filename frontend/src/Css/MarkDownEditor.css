@@ -1,0 +1,24 @@
+.markDown {
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.mdx-editor {
+    height: 100%;
+    width: 100%;
+}
+
+.copy-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+}
+
+button._selectTrigger_uazmk_305,
+button._selectTrigger_uazmk_306,
+button._selectTrigger_uazmk_307:not(.mdxeditor-toolbar button) {
+    display: none;
+}
