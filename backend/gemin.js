@@ -1,13 +1,17 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(`AIzaSyD5GVKbIsLVu9dPB5jTWrFbU4tTXMDX2es`);
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { promises as fs } from "fs";
+import { readFileSync } from "fs";
+
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-const fs = require("fs").promises;
-const fsSync = require("fs");
-const { get } = require("http");
 
 function getResponseFormat(API_CODE) {
 
-  let response = fsSync.readFileSync('./responseFormat.txt', 'utf8');
+  let response = readFileSync('./responseFormat.txt', 'utf8');
 
   response = response.replace("[API_CODE_HERE]", API_CODE);
 
@@ -16,7 +20,7 @@ function getResponseFormat(API_CODE) {
 
 function getCode(Path) {
 
-  let code = fsSync.readFileSync(Path, 'utf8');
+  let code = readFileSync(Path, 'utf8');
 
   return code;
 

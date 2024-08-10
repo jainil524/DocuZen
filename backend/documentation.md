@@ -1,59 +1,300 @@
-## /data POST Endpoint
+## register (Registers a new user)
+**Endpoint:** `/api/auth/register`  
+**Method:** `POST`  
+**Header:** `null`
 
-This endpoint accepts data and returns a confirmation message.
+### Request Body
+- **name** (String, REQUIRED): Name of the user.
+- **address** (String, REQUIRED): Address of the user.
+- **city** (String, REQUIRED): City of the user.
+- **country** (String, REQUIRED): Country of the user.
+- **phone** (String, REQUIRED): Phone number of the user.
+- **password** (String, REQUIRED): Password of the user.
+- **email** (String, REQUIRED): Email of the user.
 
-**Method:** POST
+### Responses
+- **201 - Created**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "User registered successfully"
+      },
+      "hasData": true
+    }
+    ```
 
-**URL:** `/data`
+- **400 - Bad Request**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "Email already exists"
+      },
+      "hasData": false
+    }
+    ```
 
-**Request Body:**
+## tokenValidate (Validates the user's token)
+**Endpoint:** `/api/auth/tokenValidate`  
+**Method:** `GET`  
+**Header:** `Authorization` (Bearer token)
 
-The request body should contain the following JSON data:
+### Request Body
+- **None**
 
-```json
-{
-  "name": "string",
-  "age": number
-}
-```
+### Responses
+- **200 - OK**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "Token is valid"
+      },
+      "hasData": false
+    }
+    ```
 
-**Parameters:**
+- **401 - Unauthorized**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "Access denied"
+      },
+      "hasData": false
+    }
+    ```
 
-* **name:** (string) The name of the user.
-* **age:** (number) The age of the user.
+- **401 - Unauthorized**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "Invalid token"
+      },
+      "hasData": false
+    }
+    ```
 
-**Response:**
+## login (Logs in an existing user)
+**Endpoint:** `/api/auth/login`  
+**Method:** `POST`  
+**Header:** `null`
 
-The endpoint returns a JSON object containing a success message with the received data:
+### Request Body
+- **email** (String, REQUIRED): Email of the user.
+- **password** (String, REQUIRED): Password of the user.
 
-```json
-{
-  "message": "Received data: Name is [name], Age is [age]"
-}
-```
+### Responses
+- **200 - OK**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "Login successful",
+        "role": "user",
+        "isAdmin": false,
+        "token": "JWT_TOKEN"
+      },
+      "hasData": true
+    }
+    ```
 
-**Example Request:**
+- **401 - Unauthorized**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "No user founded with this credentials"
+      },
+      "hasData": false
+    }
+    ```
 
-```json
-{
-  "name": "John Doe",
-  "age": 30
-}
-```
+- **401 - Unauthorized**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "Invalid password"
+      },
+      "hasData": false
+    }
+    ```
 
-**Example Response:**
+- **500 - Internal Server Error**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "Internal server error"
+      },
+      "hasData": false
+    }
+    ```
 
-```json
-{
-  "message": "Received data: Name is John Doe, Age is 30"
-}
-```
+## googleLogin (Initiates Google login flow)
+**Endpoint:** `/api/auth/googleLogin`  
+**Method:** `GET`  
+**Header:** `null`
 
-**Error Handling:**
+### Request Body
+- **None**
 
-* If the request body is missing or invalid, the endpoint will return an error message.
+### Responses
+- **302 - Found**
+    - Redirects to Google OAuth2 authorization endpoint with required parameters
 
-**Notes:**
+## googleLoginCallback (Handles Google login callback)
+**Endpoint:** `/api/auth/googleLogin`  
+**Method:** `GET`  
+**Header:** `null`
 
-* This endpoint is designed to be a simple example of a POST request with a JSON body. 
-* You can adapt this endpoint to accept different data or perform additional actions based on your specific needs.
+### Request Body
+- **None**
+
+### Responses
+- **200 - OK**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "Google login successfull",
+        "role": "user",
+        "token": "JWT_TOKEN"
+      },
+      "hasData": true
+    }
+    ```
+
+- **302 - Found**
+    - Redirects to login page on error
+
+## googleData (Retrieves Google user data)
+**Endpoint:** `/api/auth/googleData`  
+**Method:** `POST`  
+**Header:** `null`
+
+### Request Body
+- **profile** (Object, REQUIRED): Google user profile data.
+
+### Responses
+- **200 - OK**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "Google login successfull",
+        "profile": { /* Google user profile data */ }
+      },
+      "hasData": true
+    }
+    ```
+
+## logout (Logs out the user)
+**Endpoint:** `/api/auth/logout`  
+**Method:** `POST`  
+**Header:** `null`
+
+### Request Body
+- **None**
+
+### Responses
+- **200 - OK**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "Logged out successfully"
+      },
+      "hasData": false
+    }
+    ```
+
+## changePassword (Changes the user's password)
+**Endpoint:** `/api/auth/changePassword`  
+**Method:** `POST`  
+**Header:** `Authorization` (Bearer token)
+
+### Request Body
+- **oldPassword** (String, REQUIRED): Old password of the user.
+- **newPassword** (String, REQUIRED): New password of the user.
+
+### Responses
+- **200 - OK**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "Password changed successfully"
+      },
+      "hasData": false
+    }
+    ```
+
+- **401 - Unauthorized**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "Invalid password"
+      },
+      "hasData": false
+    }
+    ```
+
+- **404 - Not Found**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "User not found"
+      },
+      "hasData": false
+    }
+    ```
+
+## deleteAccount (Deletes the user's account)
+**Endpoint:** `/api/auth/deleteAccount`  
+**Method:** `POST`  
+**Header:** `Authorization` (Bearer token)
+
+### Request Body
+- **password** (String, REQUIRED): Password of the user.
+
+### Responses
+- **200 - OK**
+    ```javascript
+    {
+      "status": "success",
+      "data": {
+        "message": "Account deleted successfully"
+      },
+      "hasData": false
+    }
+    ```
+
+- **401 - Unauthorized**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "Invalid password"
+      },
+      "hasData": false
+    }
+    ```
+
+- **404 - Not Found**
+    ```javascript
+    {
+      "status": "error",
+      "data": {
+        "message": "User not found"
+      },
+      "hasData: false
+    }
+    ```
+
+---

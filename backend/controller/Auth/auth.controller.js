@@ -16,6 +16,23 @@ dbConnect();
 // Register a new user
 const register = asyncHandler(async (req, res) => {
     const { name, password, email } = req.body;
+    const emptySetOfValues = [null, undefined, ''];
+    if (emptySetOfValues.includes(name) || emptySetOfValues.includes(password) || emptySetOfValues.includes(email)) {
+        res.json({ status: "error", data: { message: 'Please fill all the required fields' }, hasData: false });
+        return;
+    } else if (!email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+        // Check email validation
+        res.json({ status: "error", data: { message: 'Invalid email format' }, hasData: false });
+        return;
+    } else if (password.length < 6) {
+        // Check password length must be greater than 6
+        res.json({ status: "error", data: { message: 'Password must be at least 6 characters long' }, hasData: false });
+        return;
+    } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)) {
+        // Check password must contain one lowercase, one uppercase, one special character, and be at least 6 characters long
+        res.json({ status: "error", data: { message: 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character' }, hasData: false });
+        return;
+    }
 
     const user = { name, password, email, role: "user" };
 
@@ -24,7 +41,7 @@ const register = asyncHandler(async (req, res) => {
         return res.status(400).json(result);
     }
 
-    return res.status(201).json({ status: "success", data: { message: 'User registered successfully'}, hasData: true });
+    return res.status(201).json({ status: "success", data: { message: 'User registered successfully' }, hasData: true });
 });
 
 // Validate token
@@ -37,15 +54,20 @@ const tokenValidate = asyncHandler(async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['RS256'] });
-        if( decoded  )
-        return res.status(200).json({ status: "success", data: { message: 'Token is valid' }, hasData: false });
+        if (decoded)
+            return res.status(200).json({ status: "success", data: { message: 'Token is valid' }, hasData: false });
     } catch (e) {
         return res.status(401).json({ status: "error", data: { message: 'Invalid token' }, hasData: false });
     }
 });
 
+// Login user
 const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+        res.status(400).json({ status: "error", data: { message: 'Please fill all the required fields' }, hasData: false });
+    }
 
     try {
         const user = await User.findOne({ email });
@@ -120,19 +142,18 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
             user = await createUser({ name: profile.name, email: profile.email, profileImage: profile.picture, googleId: profile.id });
         }
 
-        if(user.googleId != null){
+        if (user.googleId != null) {
             const token = generateJWTToken(user);
             // Generate JWT token for user authentication
             return res.json({ status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
         }
         login(req, res);
-        console.log(user); 
+        console.log(user);
     } catch (error) {
         console.error('Error:', error); // Log the error message for debugging
         res.redirect('/login'); // Redirect to login page on error  
     }
 });
-;
 
 const googleData = asyncHandler(async (req, res) => {
     const { profile } = req.body;
@@ -151,7 +172,7 @@ const logout = asyncHandler(async (req, res) => {
 const changePassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body;
     console.log(req.user);
-    
+
     const user = await User.findOne({ email: req.user.email });
     if (!user) return res.status(404).json({ status: "error", data: { message: "User not found" }, hasData: false });
 
@@ -197,6 +218,7 @@ const createUser = async ({ name, role, password, googleId, email }) => {
     let userid = generateUUID();
     let isUnique = false;
 
+
     do {
         let isUserIDUnique = await User.findOne({ userid });
         if (!isUserIDUnique) {
@@ -212,7 +234,7 @@ const createUser = async ({ name, role, password, googleId, email }) => {
     if (emailExists) {
         return { status: "error", data: { message: 'Email already exists' }, hasData: false };
     }
-    if(googleId){
+    else if (googleId) {
         const user = new User({ userid, name, email, role, googleId });
         return user.save();
     }

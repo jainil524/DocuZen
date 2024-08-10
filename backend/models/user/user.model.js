@@ -25,12 +25,6 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user',
-    required: true
-  },
   googleId: { type: String }, // Google ID for OAuth
 }, { timestamps: true });
 

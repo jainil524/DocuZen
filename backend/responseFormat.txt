@@ -1,8 +1,6 @@
 Generate a detailed Markdown documentation for the following API code. Ensure the documentation is complete and follows the format below:
 
----
-
-## API_ROUTE_NAME (WHAT IT IS USED FOR)
+## ROUTE_NAME (WHAT IT IS USED FOR)
 **Endpoint:** `API_PATH`  
 **Method:** `REQUEST_METHOD`  
 **Header:** `HEADER_PARAMS_IF_REQUEIRED_OR_NULL`
@@ -13,14 +11,14 @@ Generate a detailed Markdown documentation for the following API code. Ensure th
 
 ### Responses
 - **STATUS_CODE - STATUS_MESSAGE**
-    ```json
+    ```js
     {
       JSON_RESPONSE
     }
     ```
 
 - **STATUS_CODE - STATUS_MESSAGE**
-    ```json
+    ```js
     {
       JSON_RESPONSE
     }
