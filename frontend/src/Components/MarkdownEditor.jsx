@@ -79,8 +79,8 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
     return (
         <div className='markDown'>
             <MDXEditor
-                style={{color: "white"}}
-                className="mdx-editor"
+                style={{ color: "white" }}
+                className="mdx-editor dark-theme dark-editor"
                 ref={MDXEditorRef}
                 markdown={markDownText}
                 plugins={[
