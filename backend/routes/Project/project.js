@@ -13,7 +13,7 @@ import {
 const project = Router();
 
 
-project.post("/generate-document", getMarkdown);
+project.post("/generate-document", validateUser ,getMarkdown);
 project.post("/create-document", validateUser, createDocument);
 project.post("/edit-document", validateUser, saveDocument);
 project.post("/delete-document", validateUser, deleteDocument);

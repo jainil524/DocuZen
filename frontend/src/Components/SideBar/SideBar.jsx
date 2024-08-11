@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
-import { FaHistory, FaFileAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import {
+  FaHistory,
+  FaFile,
+  FaChevronDown,
+  FaChevronUp
+} from 'react-icons/fa';
+import {useCookies } from "react-cookie"
+import Cookies from "universal-cookie";
 import './Sidebar.css'; // Optional: Add your custom styles here
 
 const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
+  const [documentHistory, setDocumentHistory] = useState([]);
+  const cookies = new Cookies();
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -14,6 +23,31 @@ const SideBar = () => {
     setIsHistoryOpen(!isHistoryOpen);
   };
 
+  useEffect(() => {
+
+    let token = cookies.get("token") || localStorage.getItem("token");
+    console.log("Token from Cookies: ", token);
+
+    const fetchDocHistory = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/projects/get-all-document", {
+          method: "POST",
+          headers: {
+            "Authorization": `${token}`,
+            "Content-Type": "application/json",
+          },
+        });x
+        const result = await response.json();
+        console.log("Fetch result: ", result);
+        setDocumentHistory(result.data.Document || []);
+      } catch (error) {
+        console.error("Error fetching document history: ", error);
+      }
+    };
+
+    fetchDocHistory();
+  }, []);
+
   return (
     <div className={`sidebar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <div className="sidebar-header" onClick={toggleCollapse}>
@@ -21,6 +55,12 @@ const SideBar = () => {
         {isCollapsed ? <FaChevronDown /> : <FaChevronUp />}
       </div>
       <div className={`sidebar-menu ${isCollapsed ? 'hidden' : 'visible'}`}>
+
+        <a href="#create-new" className="sidebar-item">
+          <FaFile />
+          <span className="item-text">New Document</span>
+        </a>
+
         <div className="sidebar-section">
           <div className="sidebar-item" onClick={toggleHistory}>
             <FaHistory />
@@ -29,17 +69,28 @@ const SideBar = () => {
           </div>
           {isHistoryOpen && (
             <div className="history-content">
-              {/* Render your history content here */}
-              <p>History Item 1</p>
-              <p>History Item 2</p>
-              {/* Add more history items as needed */}
+              {
+                documentHistory.length > 0
+                  ?
+                  (
+                    documentHistory.map((doc) => (
+                      <div data-docId={doc.documentId}>
+                        <span>
+                          {doc.documentName}
+                        </span>
+                      </div>
+                    ))
+                  )
+                  :
+                  <div>
+                    No document created
+                  </div>
+              }
+
             </div>
           )}
         </div>
-        <a href="#create-new" className="sidebar-item">
-          <FaFileAlt />
-          <span className="item-text">Create New Document</span>
-        </a>
+
       </div>
     </div>
   );
