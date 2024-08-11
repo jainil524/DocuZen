@@ -38,7 +38,7 @@ const register = asyncHandler(async (req, res) => {
 
     let result = await createUser(user);
     if (result.status === "error") {
-        return res.status(400).json(result);
+        return res.status(400).json({ status: "error", data: { message: result.data.message }, hasData: false });
     }
 
     return res.status(201).json({ status: "success", data: { message: 'User registered successfully' }, hasData: true });
@@ -77,19 +77,32 @@ const login = asyncHandler(async (req, res) => {
             return res.status(401).json({ status: "error", data: { message: 'No user founded with this credentials' }, hasData: false });
         }
 
-        const isPasswordSame = await bcrypt.compare(password, user.password);
+        if (user.googleId == null) {
 
-        if (!isPasswordSame) {
-            console.log(`Invalid password for user with this email: ${email}`);
-            return res.status(401).json({ status: "error", data: { message: 'Invalid password' }, hasData: false });
+            const isPasswordSame = await bcrypt.compare(password, user.password);
+
+            if (!isPasswordSame) {
+                console.log(`Invalid password for user with this email: ${email}`);
+                return res.status(401).json({ status: "error", data: { message: 'Invalid password' }, hasData: false });
+            }
+            const isAdmin = user.role == 'admin';
+            console.log(user);
+    
+            const token = generateJWTToken(user);
+            res.json({ status: "success", data: { message: 'Login successful', role: user.role, isAdmin: isAdmin, token: token }, hasData: true });
+        }else{
+
+            res.cookie('token', token, { httpOnly: true });
+            res.cookie('role', user.role, { httpOnly: true });
+            res.cookie('isAdmin', isAdmin, { httpOnly: true });
+
+            return res.redirect("http://localhost:5173/home");
+
+
         }
+        
 
-        const isAdmin = user.role == 'admin';
-
-        console.log(user);
-
-        const token = generateJWTToken(user);
-        res.json({ status: "success", data: { message: 'Login successful', role: user.role, isAdmin: isAdmin, token: token }, hasData: true });
+       
 
     } catch (error) {
         console.error('Login error:', error);
@@ -99,7 +112,7 @@ const login = asyncHandler(async (req, res) => {
 
 const googleLogin = asyncHandler(async (req, res) => {
     // Google login logic here
-    const CLIENT_ID = '332800489479-i9p7clk0s97nnmvpnvcm1gqqtvg56svf.apps.googleusercontent.com';
+    const CLIENT_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
     const REDIRECT_URI = 'http://localhost:3000/api/auth/googleLogin';
 
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
@@ -107,8 +120,8 @@ const googleLogin = asyncHandler(async (req, res) => {
 });
 
 const googleLoginCallback = asyncHandler(async (req, res) => {
-    const CLIENT_ID = '332800489479-i9p7clk0s97nnmvpnvcm1gqqtvg56svf.apps.googleusercontent.com';
-    const CLIENT_SECRET = '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';
+    const CLIENT_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
+    const CLIENT_SECRET = process.env.GOOGLE_AUTH_CLIENT_SECRET;
     const REDIRECT_URI = 'http://localhost:3000/api/auth/googleLogin';
     const { code } = req.query;
 
@@ -140,6 +153,12 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
         if (!user) {
             // User does not exist, create a new user record
             user = await createUser({ name: profile.name, email: profile.email, profileImage: profile.picture, googleId: profile.id });
+
+            if (user.status === "error") {
+                return res.status(400).json({ status: "error", data: { message: 'Error creating user' }, hasData: false });
+            } else {
+                return res.redirect("http://localhost:5173/home");
+            }
         }
 
         if (user.googleId != null) {
@@ -148,11 +167,12 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
             res.cookie('token', token, { httpOnly: true });
             res.redirect("http://localhost:5173/");
             // { status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
-        }
+        } 
+        
         console.log(user);
     } catch (error) {
         console.error('Error:', error); // Log the error message for debugging
-        res.redirect('/login'); // Redirect to login page on error  
+        res.redirect('http://localhost:5173/login'); // Redirect to login page on error  
     }
 });
 

@@ -1,8 +1,9 @@
 .markDown {
     overflow: auto;
-    height: 100%;
+    min-height: 630px;
     width: 100%;
     position: relative;
+    background-color: white;
 }
 
 .mdx-editor {
@@ -21,4 +22,11 @@ button._selectTrigger_uazmk_305,
 button._selectTrigger_uazmk_306,
 button._selectTrigger_uazmk_307:not(.mdxeditor-toolbar button) {
     display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .mdx-editor {
+        color: white !important;
+    }
+    
 }
