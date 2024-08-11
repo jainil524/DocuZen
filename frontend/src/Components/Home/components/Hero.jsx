@@ -1,6 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './hero.css'
 
 const Hero = (props) => {
@@ -13,10 +12,7 @@ const Hero = (props) => {
         </div>
         <div className="hero-actions">
           <button className="hero-button thq-button-filled">
-            <span className="hero-text2 thq-body-small">{props.action1}</span>
-          </button>
-          <button className="hero-button1 thq-button-outline">
-            <span className="thq-body-small">{props.action2}</span>
+            <Link to='/register'><span className="hero-text2 thq-body-small">{props.action1}</span></Link>
           </button>
         </div>
       </div>
@@ -156,7 +152,7 @@ const Hero = (props) => {
       </div>
       <div>
         <div className="hero-container1">
-          
+
         </div>
       </div>
     </div>
@@ -180,8 +176,7 @@ Hero.defaultProps = {
   image3Alt: 'Hero Image',
   image9Src: 'https://play.teleporthq.io/static/svg/default-img.svg',
   image11Alt: 'Hero Image',
-  action2: 'See How It Works',
-  action1: 'Try for Free',
+  action1: 'Try Now',
   image8Src: 'https://play.teleporthq.io/static/svg/default-img.svg',
   image5Src: 'https://play.teleporthq.io/static/svg/default-img.svg',
   image4Src: 'https://play.teleporthq.io/static/svg/default-img.svg',
