@@ -16,7 +16,7 @@
   padding: 3rem 2rem;
 
   border-radius: 10px;
-  box-shadow: 0 0 25px rgb(217, 217, 217);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.484);
 }
 
 .login-container .form-title {
@@ -180,32 +180,40 @@ button {
 }
 
 @keyframes shuttleLeftAnimation {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   15% {
     transform: translate(0px, 10px);
   }
+
   75% {
     transform: translate(20px, 10px);
   }
+
   50% {
     transform: translate(20px, -20px);
   }
 }
 
 @keyframes shuttleRightAnimation {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   15% {
     transform: translate(12px, 15px);
   }
+
   75% {
     transform: translate(20px, -15px);
   }
+
   50% {
     transform: translate(30px, 20px);
   }

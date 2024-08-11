@@ -15,13 +15,13 @@ dbConnect();
 const getMarkdown = asyncHandler(async (req, res) => {
     const { code } = req.body;
     console.log(req.body);
-    
+
     try {
         const markdownContent = await generateMarkdown(code);
 
         res.status(200).json({ status: "success", data: { message: "Markdown content generated successfully", markdownContent: markdownContent }, hasData: true });
         return;
-    }catch(err){
+    } catch (err) {
         console.log(err);
         res.status(500).json({ status: "error", data: { message: 'Internal Server error' }, hasData: false });
         return;

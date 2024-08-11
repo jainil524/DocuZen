@@ -17,7 +17,7 @@ const __dirname = path.resolve();
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.use(
     cors({
@@ -32,10 +32,10 @@ app.use(bodyParser.json());
 app.use('/api/auth', Auth);
 app.use('/api/user', validateUser, user);
 app.use('/api/admin', validateUser, admin);
-app.use('/api/projects', validateUser, project);
+app.use('/api/projects', project);
 
 // for google login
-app.get("/gl",(req,res)=>{
+app.get("/gl", (req, res) => {
     res.sendFile(__dirname + "/login.html");
 })
 

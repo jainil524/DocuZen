@@ -16,6 +16,9 @@
     bottom: 2rem;
     right: 2rem;
     z-index: 1000;
+    display: flex;
+    gap: 0.5rem;
+    place-items: center
 }
 
 button._selectTrigger_uazmk_305,
