@@ -1,5 +1,5 @@
 .markDown {
-    overflow: auto;
+    overflow: hidden;
     min-height: 630px;
     width: 100%;
     position: relative;

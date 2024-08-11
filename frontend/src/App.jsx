@@ -6,6 +6,7 @@ import Login from "./Login"
 import Register from './Register';
 
 import HomeIndex from './Components/Home/Index';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
