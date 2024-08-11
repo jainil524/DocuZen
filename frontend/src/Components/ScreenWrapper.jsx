@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import MarkdownEditor from './MarkdownEditor';
 import CodeEditor from './CodeEditor';
+import ToolBar from './ToolBar/ToolBar';
 
 
 export default function ScreenWrapper() {
@@ -24,9 +25,13 @@ export default function ScreenWrapper() {
 
 
     return (
-        <div className="screen-wrapper" style={{ display: 'grid', gap: "1rem", gridTemplateColumns: "50% 50%", gridAutoFlow: "column"}}>
-            <CodeEditor genDoc={generateDocument} setEditorRef={setEditorRef} />
-            <MarkdownEditor setMDXRef={setMDXRef} markDownText={markdownText} />
+        <div style={{width: "100%"}}>
+            <ToolBar />
+            <div className="screen-wrapper" style={{ display: 'grid', gap: "1rem", gridTemplateColumns: "50% 50%", gridAutoFlow: "column" }}>
+                <CodeEditor genDoc={generateDocument} setEditorRef={setEditorRef} />
+                <MarkdownEditor setMDXRef={setMDXRef} markDownText={markdownText} />
+            </div>
         </div>
+
     );
 }
