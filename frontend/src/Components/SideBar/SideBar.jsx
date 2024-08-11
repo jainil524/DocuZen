@@ -17,7 +17,7 @@ const SideBar = () => {
   return (
     <div className={`sidebar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <div className="sidebar-header" onClick={toggleCollapse}>
-        <h2>DocuZen</h2>
+        <img src='/public/favicon1/favicon-16x16.png' />
         {isCollapsed ? <FaChevronDown /> : <FaChevronUp />}
       </div>
       <div className={`sidebar-menu ${isCollapsed ? 'hidden' : 'visible'}`}>

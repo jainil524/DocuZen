@@ -1,5 +1,6 @@
 .codeEditor {
-    overflow: auto;
+    overflow: hidden;
+    overflow-y: auto;   
     position: relative;
 }
 

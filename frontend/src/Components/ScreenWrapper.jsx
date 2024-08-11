@@ -31,10 +31,8 @@ export default function ScreenWrapper() {
 
 
     return (
-        <div className="screen-wrapper" style={{ display: 'flex', }}>
-            <div>
-                <CodeEditor genDoc={generateDocument} setEditorRef={setEditorRef} />
-            </div>
+        <div className="screen-wrapper" style={{ display: 'grid', gap: "1rem", gridTemplateColumns: "50% 50%", gridAutoFlow: "column"}}>
+            <CodeEditor genDoc={generateDocument} setEditorRef={setEditorRef} />
             <MarkdownEditor setMDXRef={setMDXRef} markDownText={markdownText} />
         </div>
     );
