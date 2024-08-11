@@ -51,6 +51,11 @@
     background: var(--basePageBg);
 }
 
+.cm-sourceView.mdxeditor-source-editor {
+    background-color: #1e1e1e;
+    color: white;
+}
+
 .markDown {
     overflow: hidden;
     min-height: 630px;
