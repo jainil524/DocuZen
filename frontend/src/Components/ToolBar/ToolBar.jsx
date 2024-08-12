@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import { saveAs } from 'file-saver';
@@ -7,9 +7,10 @@ import { FaDownload, FaFilePdf } from 'react-icons/fa';
 import './ToolBar.css';
 import PropTypes from 'prop-types';
 
-const ToolBar = ({ onSave }) => {
-  const [title, setTitle] = useState('Document_Title');
+const ToolBar = ({ onSave, }) => {
+  const [title, setTitle] = useState('Add Title Here');
   const [isEditing, setIsEditing] = useState(false);
+  const [content, setContent] = useState(null);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -21,6 +22,10 @@ const ToolBar = ({ onSave }) => {
     };
   }, []);
 
+  useEffect(()=>{
+    setContent("");
+  })
+
   // Handle title change
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -28,27 +33,36 @@ const ToolBar = ({ onSave }) => {
 
   // Toggle between editable and non-editable state
   const toggleEdit = () => {
+    if (isEditing == false) {
+      if (title == "Add Title Here") {
+        setTitle("");
+      }
+    }
+
     setIsEditing(!isEditing);
   };
 
   // Handle download as MD
-  const handleDownloadMD = () => {
-    const content = '# Markdown Content\nYour content goes here...';
+  const handleDownloadMD = useCallback(() => {
     const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
     saveAs(blob, `${title}.md`);
-  };
+  }, [content]);
 
   // Handle download as PDF
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = useCallback(() => {
     const doc = new jsPDF();
-    doc.text('Your content goes here...', 10, 10); // Replace with actual content
+    doc.text(content, 10, 10); // Replace with actual content
     doc.save(`${title}.pdf`);
-  };
+  }, [content]);
 
   // Handle save
-  const handleSave = () => {
-    onSave(title); // Pass title to onSave callback
-  };
+  const handleSave = useCallback(() => {
+
+    let result = onSave(title, content); // Pass title to onSave callback
+
+    console.log(result);
+  
+  }, [content]);
 
   // Handle title blur to stop editing
   const handleBlur = () => {
