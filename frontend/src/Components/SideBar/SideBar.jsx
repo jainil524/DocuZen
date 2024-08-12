@@ -21,7 +21,9 @@ const SideBar = ({ setDoc }) => {
   const toggleHistory = () => {
     setIsHistoryOpen(!isHistoryOpen);
   };
-
+  const newDoc = async () => {
+    setDoc([]);
+  }
   const handleOpenDoc = async (docId) => {
     let token = cookies.get("token") || localStorage.getItem("token");
 
@@ -79,10 +81,9 @@ const SideBar = ({ setDoc }) => {
       </div>
       <div className={`sidebar-menu ${isCollapsed ? 'hidden' : 'visible'}`}>
 
-        <a href="#create-new" className="sidebar-item">
-          <FaFile />
+        <div className="sidebar-item" onClick={newDoc}>
           <span className="item-text">New Document</span>
-        </a>
+        </div>
 
         <div className="sidebar-section">
           <div className="sidebar-item" onClick={toggleHistory}>
@@ -97,7 +98,7 @@ const SideBar = ({ setDoc }) => {
                   ?
                   (
                     documentHistory.map((doc) => (
-                      <div key={doc.documentId} onClick={() => handleOpenDoc(doc.documentId)} data-docId={doc.documentId}>
+                      <div key={doc.documentId} onClick={() => handleOpenDoc(doc.documentId)} data-doc-id={doc.documentId}>
                         <span>
                           {doc.documentName}
                         </span>

@@ -31,6 +31,9 @@ const ToolBar = ({ onSave, mdxRef }) => {
 
   // Handle title change
   const handleTitleChange = (e) => {
+
+    console.log("hello");
+
     setTitle(e.target.value);
   };
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -71,12 +74,10 @@ const ToolBar = ({ onSave, mdxRef }) => {
 
   // Handle save
   const handleSave = useCallback(() => {
-
     let result = onSave(title, content); // Pass title to onSave callback
 
     console.log(result);
-
-  }, [content]);
+  }, [content, title]);
 
   // Handle title blur to stop editing
   const handleBlur = () => {
