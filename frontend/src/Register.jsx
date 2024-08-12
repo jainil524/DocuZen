@@ -16,7 +16,7 @@ function Register() {
       return;
     }
 
-    fetch('http://localhost:3000/api/auth/register', {
+    fetch(`${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ function Register() {
   };
 
   const signupWithGoogle = () => {
-    window.location.href = 'http://localhost:3000/api/auth/google';
+    window.location.href = `${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/auth/google`;
   };
 
   return (

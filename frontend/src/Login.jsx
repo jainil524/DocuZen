@@ -1,7 +1,6 @@
 import Cookies from "universal-cookie";
 import './Css/login.css'
 import { Link } from 'react-router-dom';
-
 function Login() {
 
   const cookies = new Cookies();
@@ -17,7 +16,7 @@ function Login() {
       return;
     }
 
-    fetch('http://localhost:3000/api/auth/login', {
+    fetch(`${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +36,7 @@ function Login() {
   };
 
   const signinWithGoogle = () => {
-    window.location.href = 'http://localhost:3000/api/auth/google';
+    window.location.href = `${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/auth/google`;
   };
 
   return (

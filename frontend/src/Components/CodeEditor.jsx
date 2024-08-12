@@ -23,7 +23,7 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
     setIsGenerating(true);
     let token = cookies.get("token") || localStorage.getItem("token");
 
-    const result = await fetch("http://localhost:3000/api/projects/generate-document",
+    const result = await fetch(`${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/projects/generate-document`,
       {
         method: "POST",
         headers: {

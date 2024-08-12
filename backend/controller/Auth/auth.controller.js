@@ -96,7 +96,7 @@ const login = asyncHandler(async (req, res) => {
             res.cookie('role', user.role);
             res.cookie('isAdmin', isAdmin);
 
-            return res.redirect("http://localhost:5173/home");
+            return res.redirect(`${process.env.REQUEST_TO_URL}:${process.env.PORT}/home`);
 
 
         }
@@ -113,7 +113,7 @@ const login = asyncHandler(async (req, res) => {
 const googleLogin = asyncHandler(async (req, res) => {
     // Google login logic here
     const CLIENT_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
-    const REDIRECT_URI = 'http://localhost:3000/api/auth/googleLogin';
+    const REDIRECT_URI = `${process.env.REQUEST_TO_URL}:${process.env.PORT}/api/auth/googleLogin`;
 
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
     res.redirect(url);
@@ -122,7 +122,7 @@ const googleLogin = asyncHandler(async (req, res) => {
 const googleLoginCallback = asyncHandler(async (req, res) => {
     const CLIENT_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
     const CLIENT_SECRET = process.env.GOOGLE_AUTH_CLIENT_SECRET;
-    const REDIRECT_URI = 'http://localhost:3000/api/auth/googleLogin';
+    const REDIRECT_URI = `${process.env.REQUEST_TO_URL}:${process.env.PORT}/api/auth/googleLogin`;
     const { code } = req.query;
 
     try {
@@ -160,7 +160,7 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
             if (user.status === "error") {
                 return res.status(400).json({ status: "error", data: { message: 'Error creating user' }, hasData: false });
             } else {
-                return res.redirect("http://localhost:5173/home");
+                return res.redirect(`${process.env.REQUEST_TO_URL}:${process.env.PORT}/home`);
             }
         }
 
@@ -168,14 +168,14 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
             const token = generateJWTToken(user);
             res.cookie('token', token);
 
-            res.redirect("http://localhost:5173/home");
+            res.redirect(`${process.env.REQUEST_TO_URL}:${process.env.PORT}/home`);
             // { status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
         }
 
         console.log(user);
     } catch (error) {
         console.error('Error:', error); // Log the error message for debugging
-        res.redirect('http://localhost:5173/login'); // Redirect to login page on error  
+        res.redirect(`${process.env.REQUEST_TO_URL}:${process.env.PORT}/login`); // Redirect to login page on error  
     }
 });
 
