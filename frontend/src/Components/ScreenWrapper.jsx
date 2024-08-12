@@ -52,13 +52,13 @@ export default function ScreenWrapper() {
     }, [mdxRef]);
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
             <ToolBar />
-            <div className="screen-wrapper" style={{ display: 'grid', gap: "0", gridTemplateColumns: `${leftColumnWidth}% ${resizerRef.current ? 'auto' : '0px'} ${rightColumnWidth}%`, gridAutoFlow: "column" }}>
+            <div className="screen-wrapper" style={{ display: 'grid', gap: "0", background: "#1e1e1e", gridTemplateColumns: `${leftColumnWidth}% ${resizerRef.current ? 'auto' : '0px'} ${rightColumnWidth}%`, gridAutoFlow: "column", height: 'calc(100% - 5.2%)' }}>
                 <CodeEditor genDoc={generateDocument} setEditorRef={setEditorRef} />
                 <div
                     className='resizer'
-                    style={{ cursor: "ew-resize", background: "#ddd", width: '5px' }}
+                    style={{ cursor: "ew-resize", background: "#1e1e1e", width: '5px', }}
                     ref={resizerRef}
                     onMouseDown={handleMouseDown}
                 ></div>

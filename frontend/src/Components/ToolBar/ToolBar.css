@@ -7,10 +7,12 @@
   border-bottom: 1px solid #ddd;
   gap: 1rem;
 }
+
 .toolbar .dropdown {
   margin-left: auto;
   display: flex;
 }
+
 .toolbar input {
   margin-right: 10px;
   font-size: 16px;
@@ -40,7 +42,8 @@
 }
 
 .dropdown-toggle::after {
-  display: none; /* Hide the default dropdown arrow */
+  display: none;
+  /* Hide the default dropdown arrow */
 }
 
 .dropdown-menu {

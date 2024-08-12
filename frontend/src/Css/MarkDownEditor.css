@@ -58,15 +58,16 @@
 
 .markDown {
     overflow: hidden;
-    min-height: 630px;
     width: 100%;
     position: relative;
     background-color: white;
+    overflow-y: hidden;
 }
 
 .mdx-editor {
-    height: 100%;
     width: 100%;
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .copy-btn {
