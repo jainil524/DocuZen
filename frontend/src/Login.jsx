@@ -79,7 +79,7 @@ function Login() {
                 <button type="button" id="login" onClick={handleLogin}>Sign in</button>
               </div>
               <div className="orsignuptext">
-                <span> or signin with </span>
+                <span> Or sign in with </span>
                 <i></i>
               </div>
               <div className="option-btn">

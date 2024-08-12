@@ -45,11 +45,6 @@
   font-weight: 600;
 }
 
-.input-container input {
-  padding: 0.76rem 0.8rem;
-  border: 1px solid rgb(169, 169, 169);
-  background-color: #ffffff;
-}
 
 .input-container input::placeholder {
   font-weight: 500;
@@ -82,7 +77,8 @@ input:focus {
 .submit-btn button {
   width: 100%;
   background-color: #fff;
-  color: #515151;
+  background-image: linear-gradient(45deg, #3a5fd6, 50%, #a940ce);
+  color: #fff;
   padding-inline: 3rem;
   border: 2px solid #515151;
   transition: all 0.3s ease-in-out;
@@ -93,13 +89,6 @@ input:focus {
   background-color: #333;
 }
 
-.option-btn {
-  margin-block: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-}
 
 .option-btn button {
   width: 100%;

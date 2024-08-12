@@ -29,6 +29,13 @@
   gap: 1rem;
 }
 
+.login-container .form-title h1 {
+  background: -webkit-linear-gradient(180deg, rgba(58, 95, 214, 1) 30%, rgba(169, 64, 206, 1) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
+
 .login-container form {
   display: flex;
   flex-direction: column;
@@ -47,8 +54,9 @@
 
 .input-container input {
   padding: 0.76rem 0.8rem;
+  background-color: #242424;
+  color: white;
   border: 1px solid rgb(169, 169, 169);
-  background-color: #ffffff;
 }
 
 .input-container input::placeholder {
@@ -79,14 +87,6 @@ input:focus {
   padding-top: 1rem;
 }
 
-.submit-btn button {
-  width: 100%;
-  background-color: #fff;
-  color: #515151;
-  padding-inline: 3rem;
-  border: 2px solid #515151;
-  transition: all 0.3s ease-in-out;
-}
 
 .submit-btn button:is(:focus-visible, :hover) {
   color: white;
@@ -94,7 +94,7 @@ input:focus {
 }
 
 .option-btn {
-  margin-block: 2rem;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -174,8 +174,8 @@ button {
 }
 
 @media (prefers-color-scheme: dark) {
-  
-  .login-container{
+
+  .login-container {
     background: #333 !important;
     color: white;
     box-shadow: 0 0 25px #1a1a1a !important;
@@ -188,32 +188,40 @@ button {
 }
 
 @keyframes shuttleLeftAnimation {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   15% {
     transform: translate(0px, 10px);
   }
+
   75% {
     transform: translate(20px, 10px);
   }
+
   50% {
     transform: translate(20px, -20px);
   }
 }
 
 @keyframes shuttleRightAnimation {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   15% {
     transform: translate(12px, 15px);
   }
+
   75% {
     transform: translate(20px, -15px);
   }
+
   50% {
     transform: translate(30px, 20px);
   }

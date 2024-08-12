@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import MarkdownEditor from './MarkdownEditor';
 import CodeEditor from './CodeEditor';
 import ToolBar from './ToolBar/ToolBar';

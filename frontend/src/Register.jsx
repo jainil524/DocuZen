@@ -31,7 +31,6 @@ function Register() {
         }
 
         window.location.href = '/login';
-
       });
   };
 
@@ -86,7 +85,7 @@ function Register() {
                 <button type="button" id="login" onClick={handleRegister}>Sign up</button>
               </div>
               <div className="orsignuptext">
-                <span> or signup with </span>
+                <span> Or signup with </span>
                 <i></i>
               </div>
               <div className="option-btn">
