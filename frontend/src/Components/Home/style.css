@@ -181,34 +181,34 @@
 
 .thq-heading-1 {
   font-size: 48px;
-  font-family: STIX Two Text;
+  font-family: cursive;
   font-weight: 700;
   line-height: 1.5;
 }
 
 .thq-heading-2 {
   font-size: 35px;
-  font-family: STIX Two Text;
+  font-family: cursive;
   font-weight: 600;
   line-height: 1.5;
 }
 
 .thq-heading-3 {
   font-size: 26px;
-  font-family: STIX Two Text;
+  font-family: cursive;
   font-weight: 600;
   line-height: 1.5;
 }
 
 .thq-body-large {
   font-size: 18px;
-  font-family: Noto Sans;
+  font-family: cursive;
   line-height: 1.5;
 }
 
 .thq-body-small {
   font-size: 16px;
-  font-family: Noto Sans;
+  font-family: cursive;
   line-height: 1.5;
 }
 
@@ -543,7 +543,7 @@
 
 .Content {
   font-size: 16px;
-  font-family: Inter;
+  font-family: cursive;
   font-weight: 400;
   line-height: 1.15;
   text-transform: none;
