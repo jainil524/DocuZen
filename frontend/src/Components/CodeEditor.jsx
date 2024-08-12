@@ -12,7 +12,7 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
   const cookies = new Cookies();
 
   useEffect(() => {
-    setEditorRef(editorRef.current);
+    setEditorRef(editorRef);
   }, [editorRef]);
 
   function handleEditorDidMount(editor) {

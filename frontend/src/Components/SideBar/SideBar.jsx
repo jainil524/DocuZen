@@ -8,7 +8,7 @@ import {
 import Cookies from "universal-cookie";
 import './Sidebar.css'; // Optional: Add your custom styles here
 
-const SideBar = () => {
+const SideBar = ({ setDoc }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
   const [documentHistory, setDocumentHistory] = useState([]);
@@ -21,6 +21,26 @@ const SideBar = () => {
   const toggleHistory = () => {
     setIsHistoryOpen(!isHistoryOpen);
   };
+
+  const handleOpenDoc = async (docId) => {
+    let token = cookies.get("token") || localStorage.getItem("token");
+
+    let response = await fetch(`http://localhost:3000/api/projects/getdocwhole`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify({
+        documentId: docId
+      })
+    });
+
+    let result = await response.json();
+
+    console.log(result);
+    setDoc(result)
+  }
 
   useEffect(() => {
 
@@ -77,7 +97,7 @@ const SideBar = () => {
                   ?
                   (
                     documentHistory.map((doc) => (
-                      <div key={doc.documentId} data-doc-id={doc.documentId}>
+                      <div key={doc.documentId} onClick={() => handleOpenDoc(doc.documentId)} data-docId={doc.documentId}>
                         <span>
                           {doc.documentName}
                         </span>

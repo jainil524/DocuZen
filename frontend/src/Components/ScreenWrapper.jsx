@@ -1,14 +1,21 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import MarkdownEditor from './MarkdownEditor';
 import CodeEditor from './CodeEditor';
 import ToolBar from './ToolBar/ToolBar';
 import Cookies from 'universal-cookie';
 
-export default function ScreenWrapper() {
+export default function ScreenWrapper({doc}) {
     const [editorRef, setEditorRef] = useState(null);
     const [mdxRef, setMDXRef] = useState(null);
     const [markdownText, setMarkdownText] = useState("");
     const cookies = new Cookies();
+
+    useEffect(()=>{
+        console.log(doc)
+        mdxRef?.current.insertMarkdown(doc.data.Document.documentContent);
+        mdxRef?.current.setMarkdown(doc.data.Document.documentContent);
+        editorRef?.current.getModel().setValue(doc.data.Document.referedCode)
+    }, [doc])
 
     // State to manage column widths
     const [leftColumnWidth, setLeftColumnWidth] = useState(50);
@@ -65,7 +72,8 @@ export default function ScreenWrapper() {
             },
             body: JSON.stringify({
                 documentName: title,
-                documentContent: "dsf"
+                documentContent: mdxRef.current.getMarkdown(),
+                referedCode: editorRef.current.getValue()
             })
         });
 
