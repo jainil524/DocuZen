@@ -151,8 +151,12 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
         let user = await User.findOne({ email: profile.email });
 
         if (!user) {
+
             // User does not exist, create a new user record
             user = await createUser({ name: profile.name, email: profile.email, profileImage: profile.picture, googleId: profile.id });
+            const token = generateJWTToken(user);
+            res.cookie('token', token);
+
             const token = generateJWTToken(user);
             res.cookie('token', token);
 

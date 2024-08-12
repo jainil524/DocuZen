@@ -19,6 +19,7 @@ project.post("/edit-document", validateUser, saveDocument);
 project.post("/delete-document", validateUser, deleteDocument);
 project.post("/get-all-document", validateUser, getAllDocuments);
 project.post("/get-document-by-id", validateUser, getDocumentById);
+project.post("/:docID ", validateUser, getDocumentById);
 project.post("/host-document", validateUser, getDocumentById);
 
 
