@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import { FaDownload, FaFilePdf } from 'react-icons/fa';
 import './ToolBar.css';
+import PropTypes from 'prop-types';
 
 const ToolBar = ({ onSave }) => {
   const [title, setTitle] = useState('Document_Title');
@@ -93,5 +94,9 @@ const ToolBar = ({ onSave }) => {
     </div>
   );
 };
+
+ToolBar.propTypes = {
+  onSave: PropTypes.func.isRequired
+}
 
 export default ToolBar;

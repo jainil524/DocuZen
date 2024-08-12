@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Cookies from 'js-cookie';
 
 import PropTypes from 'prop-types';
