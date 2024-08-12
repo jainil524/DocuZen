@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import { saveAs } from 'file-saver';
@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 const ToolBar = ({ onSave, mdxRef }) => {
   const [title, setTitle] = useState('Document_Title');
   const [isEditing, setIsEditing] = useState(false);
+  const [content, setContent] = useState(null);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -24,6 +25,10 @@ const ToolBar = ({ onSave, mdxRef }) => {
     };
   }, []);
 
+  useEffect(() => {
+    setContent("");
+  })
+
   // Handle title change
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -32,16 +37,20 @@ const ToolBar = ({ onSave, mdxRef }) => {
 
   // Toggle between editable and non-editable state
   const toggleEdit = () => {
+    if (isEditing == false) {
+      if (title == "Add Title Here") {
+        setTitle("");
+      }
+    }
+
     setIsEditing(!isEditing);
   };
 
   // Handle download as MD
-  const handleDownloadMD = () => {
-    const content = mdxRef.current.getMarkdown();
-
+  const handleDownloadMD = useCallback(() => {
     const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
     saveAs(blob, `${title}.md`);
-  };
+  }, [content]);
 
   // Handle download as PDF
   const handleDownloadPDF = () => {
@@ -61,9 +70,13 @@ const ToolBar = ({ onSave, mdxRef }) => {
   };
 
   // Handle save
-  const handleSave = () => {
-    onSave(title); // Pass title to onSave callback
-  };
+  const handleSave = useCallback(() => {
+
+    let result = onSave(title, content); // Pass title to onSave callback
+
+    console.log(result);
+
+  }, [content]);
 
   // Handle title blur to stop editing
   const handleBlur = () => {

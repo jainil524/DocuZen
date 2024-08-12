@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Cookies from "universal-cookie";
 
 import PropTypes from 'prop-types';
@@ -7,6 +7,8 @@ import '../Css/CodeEditor.css';
 
 export default function CodeEditor({ genDoc, setEditorRef }) {
   const editorRef = useRef(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+
   const cookies = new Cookies();
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
   }
 
   const GenerateDocument = async () => {
-
+    setIsGenerating(true);
     let token = cookies.get("token") || localStorage.getItem("token");
 
     const result = await fetch("http://localhost:3000/api/projects/generate-document",
@@ -35,13 +37,14 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
     );
 
     const data = await result.text();
-
+    setIsGenerating(false);
     genDoc(data);
+    
   }
 
   return <div className='codeEditor'>
     <Editor height="100vh" defaultLanguage="javascript" theme="vs-dark" defaultValue="//Enter Your code here..." onMount={handleEditorDidMount} />
-    <button style={{ display: "flex", gap: ".4rem", alignItems: "center" }} className='generate-doc-btn' onClick={GenerateDocument}> <img width="18px" height="18px" src="/public/ai-technology.png" /> Generate Document</button>
+    <button style={{ display: "flex", gap: ".4rem", alignItems: "center" }} className='generate-doc-btn' onClick={GenerateDocument}> <img width="18px" height="18px" src="/public/ai-technology.png" />{isGenerating?"Generating...":"Generate Document"}</button>
   </div>
 }
 

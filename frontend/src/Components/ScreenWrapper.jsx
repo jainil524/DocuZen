@@ -2,11 +2,13 @@ import { useState, useRef, useCallback } from 'react';
 import MarkdownEditor from './MarkdownEditor';
 import CodeEditor from './CodeEditor';
 import ToolBar from './ToolBar/ToolBar';
+import Cookies from 'universal-cookie';
 
 export default function ScreenWrapper() {
     const [editorRef, setEditorRef] = useState(null);
     const [mdxRef, setMDXRef] = useState(null);
     const [markdownText, setMarkdownText] = useState("");
+    const cookies = new Cookies();
 
     // State to manage column widths
     const [leftColumnWidth, setLeftColumnWidth] = useState(50);
@@ -51,9 +53,31 @@ export default function ScreenWrapper() {
         }
     }, [mdxRef]);
 
+    const handleSave = (async (title) => {
+
+        const token = cookies.get('token') || localStorage.getItem("token");
+
+        let response = await fetch("http://localhost:3000/api/projects/create-document", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                documentName: title,
+                documentContent: "dsf"
+            })
+        });
+
+        let result = await response.json();
+
+        return result;
+    });
+
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
-            <ToolBar mdxRef={mdxRef} />
+            <ToolBar />
+            <ToolBar mdxRef={mdxRef} onSave={handleSave} />
             <div className="screen-wrapper" style={{ display: 'grid', gap: "0", background: "#1e1e1e", gridTemplateColumns: `${leftColumnWidth}% ${resizerRef.current ? 'auto' : '0px'} ${rightColumnWidth}%`, gridAutoFlow: "column", height: 'calc(100% - 5.2%)' }}>
                 <CodeEditor genDoc={generateDocument} setEditorRef={setEditorRef} />
                 <div
