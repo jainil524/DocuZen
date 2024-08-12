@@ -10,7 +10,7 @@ import Features2 from '../components/Features2'
 import Steps from '../components/Steps'
 import Testimonial from '../components/Testimonial'
 import Footer from '../components/Footer'
-import './home.css'
+import './Home.css'
 
 const Home = (props) => {
   return (
