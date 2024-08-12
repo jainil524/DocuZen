@@ -85,11 +85,8 @@ const SideBar = () => {
                     ))
                   )
                   :
-                  <div>
-                    No document created
-                  </div>
+                  <div>No document created</div>
               }
-
             </div>
           )}
         </div>

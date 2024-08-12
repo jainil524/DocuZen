@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+import { marked } from 'marked';
+import htmlToPdfmake from 'html-to-pdfmake';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { FaDownload, FaFilePdf } from 'react-icons/fa';
 import './ToolBar.css';
 import PropTypes from 'prop-types';
 
-const ToolBar = ({ onSave }) => {
+const ToolBar = ({ onSave, mdxRef }) => {
   const [title, setTitle] = useState('Document_Title');
   const [isEditing, setIsEditing] = useState(false);
 
@@ -25,6 +28,7 @@ const ToolBar = ({ onSave }) => {
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   // Toggle between editable and non-editable state
   const toggleEdit = () => {
@@ -33,16 +37,27 @@ const ToolBar = ({ onSave }) => {
 
   // Handle download as MD
   const handleDownloadMD = () => {
-    const content = '# Markdown Content\nYour content goes here...';
+    const content = mdxRef.current.getMarkdown();
+
     const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
     saveAs(blob, `${title}.md`);
   };
 
   // Handle download as PDF
   const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    doc.text('Your content goes here...', 10, 10); // Replace with actual content
-    doc.save(`${title}.pdf`);
+    let markdownContent = mdxRef.current.getMarkdown();
+    markdownContent = markdownContent.replaceAll("```json", "\n");
+
+    const htmlContent = marked(markdownContent);
+
+    // Convert HTML to a format suitable for PDFMake
+    const pdfContent = htmlToPdfmake(htmlContent);
+
+    // Define the PDF document
+    const documentDefinition = { content: pdfContent };
+
+    // Generate and download the PDF
+    pdfMake.createPdf(documentDefinition).download('document.pdf');
   };
 
   // Handle save
@@ -96,7 +111,8 @@ const ToolBar = ({ onSave }) => {
 };
 
 ToolBar.propTypes = {
-  onSave: PropTypes.func
+  onSave: PropTypes.func,
+  mdxRef: PropTypes.object
 }
 
 export default ToolBar;

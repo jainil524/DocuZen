@@ -53,7 +53,7 @@ export default function ScreenWrapper() {
 
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
-            <ToolBar />
+            <ToolBar mdxRef={mdxRef} />
             <div className="screen-wrapper" style={{ display: 'grid', gap: "0", background: "#1e1e1e", gridTemplateColumns: `${leftColumnWidth}% ${resizerRef.current ? 'auto' : '0px'} ${rightColumnWidth}%`, gridAutoFlow: "column", height: 'calc(100% - 5.2%)' }}>
                 <CodeEditor genDoc={generateDocument} setEditorRef={setEditorRef} />
                 <div

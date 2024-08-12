@@ -11,14 +11,14 @@ Generate a detailed Markdown documentation for the following API code. Ensure th
 
 ### Responses
 - **STATUS_CODE - STATUS_MESSAGE**
-    ```js
+    ```json
     {
       JSON_RESPONSE
     }
     ```
 
 - **STATUS_CODE - STATUS_MESSAGE**
-    ```js
+    ```json
     {
       JSON_RESPONSE
     }
