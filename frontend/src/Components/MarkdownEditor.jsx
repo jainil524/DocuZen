@@ -30,7 +30,7 @@ import {
 } from '@mdxeditor/editor';
 import PropTypes from 'prop-types';
 import '@mdxeditor/editor/style.css';
-import '../Css/MarkdownEditor.css';
+import '../Css/MarkDownEditor.css';
 
 import '../App.css';
 
