@@ -3,18 +3,24 @@ import MarkdownEditor from './MarkdownEditor';
 import CodeEditor from './CodeEditor';
 import ToolBar from './ToolBar/ToolBar';
 import Cookies from 'universal-cookie';
+import PropTypes from 'prop-types';
 
-export default function ScreenWrapper({doc}) {
+
+export default function ScreenWrapper({ doc }) {
     const [editorRef, setEditorRef] = useState(null);
     const [mdxRef, setMDXRef] = useState(null);
     const [markdownText, setMarkdownText] = useState("");
     const cookies = new Cookies();
 
-    useEffect(()=>{
-        console.log(doc)
-        mdxRef?.current.insertMarkdown(doc.data.Document.documentContent);
-        mdxRef?.current.setMarkdown(doc.data.Document.documentContent);
-        editorRef?.current.getModel().setValue(doc.data.Document.referedCode)
+    useEffect(() => {
+
+        if (doc.length != 0) {
+            let markdownContent = doc.data.Document.documentContent;
+            markdownContent = markdownContent.replaceAll("```json", "\n\n```json");
+            mdxRef?.current.insertMarkdown(markdownContent);
+            mdxRef?.current.setMarkdown(markdownContent);
+            editorRef?.current.getModel().setValue(doc.data.Document.referedCode)
+        }
     }, [doc])
 
     // State to manage column widths
@@ -97,4 +103,8 @@ export default function ScreenWrapper({doc}) {
             </div>
         </div>
     );
+}
+
+ScreenWrapper.propTypes = {
+    doc: PropTypes.array
 }
