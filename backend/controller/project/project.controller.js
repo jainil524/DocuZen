@@ -30,7 +30,7 @@ const getMarkdown = asyncHandler(async (req, res) => {
 
 // insert the API document into the database
 const createDocument = asyncHandler(async (req, res) => {
-    const { documentName, documentContent, wantToHost } = req.body;
+    const { documentName, documentContent, referedCode, wantToHost } = req.body;
     const userId = req.user.mainid;
     const emptySetOfValues = [null, undefined, ''];
 
@@ -64,9 +64,7 @@ const createDocument = asyncHandler(async (req, res) => {
 
     try {
 
-        console.log(documentId, documentName, documentContent, userId);
-
-        const document = new Project({ documentId, documentName, documentContent, userId });
+        const document = new Project({ documentId, documentName, documentContent, referedCode, userId });
         const savedDocument = await document.save();
 
         res.status(200).json({ status: "success", data: { message: "Document created successfully", savedDocument }, hasData: true });
@@ -122,7 +120,7 @@ const deleteDocument = asyncHandler(async (req, res) => {
         console.log(documentId, userId);
 
         // check if user exists or not
-        const Document = await Project.findOne({ documentId: documentId });
+        const Document = await Project.findOne({ documentId: documentId }, {documentId: 1, documentName: 1});
 
         if (!Document || Document.length === 0) {
             res.status(404).json({ status: "error", data: { message: 'Document not found' }, hasData: false });
@@ -172,7 +170,7 @@ const getDocumentById = asyncHandler(async (req, res) => {
     try {
 
         // check if user exists or not
-        const Document = await Project.findOne({ documentId, userId }, { documentId: 1, documentName: 1, documentContent: 1 });
+        const Document = await Project.findOne({ documentId, userId }, { documentId: 1, documentName: 1, documentContent: 1, referedCode: 1 });
         res.status(200).json({ status: "success", data: { message: "Document fetched successfully", Document }, hasData: true });
     } catch (err) {
         console.log(err);

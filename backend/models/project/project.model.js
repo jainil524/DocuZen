@@ -16,6 +16,10 @@ const projectScheme = new Schema({
     type: String,
     required: false // URL or path to the profile image
   },
+  referedCode: {
+    required: true,
+    type: String
+  },
   userId: {
     type: Schema.Types.ObjectId,
     required: true
