@@ -157,9 +157,6 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
             const token = generateJWTToken(user);
             res.cookie('token', token);
 
-            const token = generateJWTToken(user);
-            res.cookie('token', token);
-
             if (user.status === "error") {
                 return res.status(400).json({ status: "error", data: { message: 'Error creating user' }, hasData: false });
             } else {
