@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
-import { Dropdown, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Button from 'react-bootstrap/Button';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
-import { FaDownload, FaFilePdf, FaFile } from 'react-icons/fa';
+import { FaDownload, FaFilePdf } from 'react-icons/fa';
 import './ToolBar.css';
+import PropTypes from 'prop-types';
 
 const ToolBar = ({ onSave }) => {
   const [title, setTitle] = useState('Document_Title');
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   // Handle title change
   const handleTitleChange = (e) => {
@@ -21,7 +33,7 @@ const ToolBar = ({ onSave }) => {
 
   // Handle download as MD
   const handleDownloadMD = () => {
-    const content = '# Markdown Content\nYour content goes here...'; // Replace with actual content
+    const content = '# Markdown Content\nYour content goes here...';
     const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
     saveAs(blob, `${title}.md`);
   };
@@ -60,7 +72,7 @@ const ToolBar = ({ onSave }) => {
           cursor: 'pointer',
         }}
       />
-      
+
       <Dropdown>
         <Dropdown.Toggle id="dropdown-basic" variant="primary">
           <FaDownload style={{ marginRight: '5px' }} />
@@ -70,11 +82,11 @@ const ToolBar = ({ onSave }) => {
         <Dropdown.Menu>
           <Dropdown.Item onClick={handleDownloadMD}>
             <FaDownload style={{ marginRight: '5px' }} />
-             MD
+            MD
           </Dropdown.Item>
           <Dropdown.Item onClick={handleDownloadPDF}>
             <FaFilePdf style={{ marginRight: '5px' }} />
-           PDF
+            PDF
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
@@ -82,5 +94,9 @@ const ToolBar = ({ onSave }) => {
     </div>
   );
 };
+
+ToolBar.propTypes = {
+  onSave: PropTypes.func.isRequired
+}
 
 export default ToolBar;

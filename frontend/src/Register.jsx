@@ -1,4 +1,5 @@
 import './Css/register.css'
+import { Link } from 'react-router-dom';
 
 function Register() {
 
@@ -30,7 +31,6 @@ function Register() {
         }
 
         window.location.href = '/login';
-
       });
   };
 
@@ -62,7 +62,7 @@ function Register() {
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                autocomplete="email"
+                autoComplete="email"
                 placeholder="Enter Your Email"
                 name="email"
                 id="email"
@@ -73,7 +73,7 @@ function Register() {
               <label htmlFor="password">Password</label>
               <input
                 type="password"
-                autocomplete="current-password"
+                autoComplete="current-password"
                 placeholder="Enter Your Password"
                 name="password"
                 id="password"
@@ -82,10 +82,10 @@ function Register() {
             </div>
             <div className="btn-container">
               <div className="submit-btn">
-                <button type="button" id="login" onClick={handleRegister}>Register</button>
+                <button type="button" id="login" onClick={handleRegister}>Sign up</button>
               </div>
               <div className="orsignuptext">
-                <span> or signup with </span>
+                <span> Or signup with </span>
                 <i></i>
               </div>
               <div className="option-btn">
@@ -121,7 +121,7 @@ function Register() {
             </div>
             <div className="redirect-link">
               <div>
-                <p>Already Have An Account? <a href="/login">Login</a></p>
+                <p>Already Have An Account? <Link to="/login">Sign in</Link></p>
               </div>
             </div>
           </form>

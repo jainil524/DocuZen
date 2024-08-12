@@ -1,20 +1,28 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 
 import PropTypes from 'prop-types'
 
 import './navbar.css'
 
-const Navbar = (props) => {
+const Navbar = ({
+  link1 = 'Home',
+  link5 = 'Contact',
+  link2 = 'Features',
+  link3 = 'Pricing',
+  link4 = 'About',
+  imageAlt = 'image',
+  text = undefined,
+}) => {
   return (
     <header className="navbar-container">
       <div data-thq="thq-navbar" className="navbar-navbar-interactive">
         <img
           src="/public/favicon1/favicon-32x32.png"
-          alt={props.imageAlt}
+          alt={imageAlt}
           className="navbar-image"
         />
         <span>
-          {props.text ?? (
+          {text ?? (
             <Fragment>
               <span className="navbar-text1">
                 <span className="navbar-text2">Docu</span>
@@ -24,11 +32,11 @@ const Navbar = (props) => {
           )}
         </span>
         <nav className="navbar-links">
-          <span className="thq-link thq-body-small">{props.link1}</span>
-          <span className="thq-link thq-body-small">{props.link2}</span>
-          <span className="thq-link thq-body-small">{props.link3}</span>
-          <span className="thq-link thq-body-small">{props.link4}</span>
-          <span className="thq-link thq-body-small">{props.link5}</span>
+          <span className="thq-link thq-body-small">{link1}</span>
+          <span className="thq-link thq-body-small">{link2}</span>
+          <span className="thq-link thq-body-small">{link3}</span>
+          <span className="thq-link thq-body-small">{link4}</span>
+          <span className="thq-link thq-body-small">{link5}</span>
         </nav>
 
         <div className="navbar-buttons1">
@@ -41,21 +49,6 @@ const Navbar = (props) => {
   )
 }
 
-Navbar.defaultProps = {
-  link1: 'Home',
-  link5: 'Contact',
-  link2: 'Features',
-  logoSrc:
-    'https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/84ec08e8-34e9-42c7-9445-d2806d156403/fac575ac-7a41-484f-b7ac-875042de11f8?org_if_sml=1&force_format=original',
-  action2: 'Try for Free',
-  logoAlt: 'DocuZen',
-  link3: 'Pricing',
-  action1: 'Get Started',
-  link4: 'About',
-  imageSrc: '/docuzen-removebg-preview-200h.png',
-  imageAlt: 'image',
-  text: undefined,
-}
 
 Navbar.propTypes = {
   link1: PropTypes.string,

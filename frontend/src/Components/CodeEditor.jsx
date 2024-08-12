@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Cookies from "universal-cookie";
 
 import PropTypes from 'prop-types';
@@ -40,7 +40,7 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
   }
 
   return <div className='codeEditor'>
-    <Editor height="100vh" width="50vw" defaultLanguage="javascript" theme="vs-dark" defaultValue="//Enter Your code here..." onMount={handleEditorDidMount} />
+    <Editor height="100vh" defaultLanguage="javascript" theme="vs-dark" defaultValue="//Enter Your code here..." onMount={handleEditorDidMount} />
     <button style={{ display: "flex", gap: ".4rem", alignItems: "center" }} className='generate-doc-btn' onClick={GenerateDocument}> <img width="18px" height="18px" src="/public/ai-technology.png" /> Generate Document</button>
   </div>
 }
