@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom';
+import Cookies from "universal-cookie";
 import './Css/login.css'
+import { Link } from 'react-router-dom';
 
 function Login() {
+
+  const cookies = new Cookies();
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -26,7 +30,8 @@ function Login() {
           alert(data.data.message);
           return;
         }
-
+        cookies.set("token", data.data.token, { path: "/" });
+        console.log(cookies.getAll())
         window.location.href = '/home';
       });
   };

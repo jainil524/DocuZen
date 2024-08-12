@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import Cookies from 'js-cookie';
+import Cookies from "universal-cookie";
 
 import PropTypes from 'prop-types';
 import Editor from '@monaco-editor/react';
@@ -7,6 +7,7 @@ import '../Css/CodeEditor.css';
 
 export default function CodeEditor({ genDoc, setEditorRef }) {
   const editorRef = useRef(null);
+  const cookies = new Cookies();
 
   useEffect(() => {
     setEditorRef(editorRef.current);
@@ -18,7 +19,7 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
 
   const GenerateDocument = async () => {
 
-    let token = Cookies.get("token") || localStorage.getItem("token");
+    let token = cookies.get("token") || localStorage.getItem("token");
 
     const result = await fetch("http://localhost:3000/api/projects/generate-document",
       {

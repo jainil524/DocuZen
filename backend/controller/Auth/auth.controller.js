@@ -92,9 +92,9 @@ const login = asyncHandler(async (req, res) => {
             res.json({ status: "success", data: { message: 'Login successful', role: user.role, isAdmin: isAdmin, token: token }, hasData: true });
         }else{
 
-            res.cookie('token', token, { httpOnly: true });
-            res.cookie('role', user.role, { httpOnly: true });
-            res.cookie('isAdmin', isAdmin, { httpOnly: true });
+            res.cookie('token', token );
+            res.cookie('role', user.role);
+            res.cookie('isAdmin', isAdmin);
 
             return res.redirect("http://localhost:5173/home");
 
@@ -149,7 +149,8 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
 
         // Check if user already exists in database by email
         let user = await User.findOne({ email: profile.email });
-
+        const token = generateJWTToken(user);
+        res.cookie('token', token);
         if (!user) {
             // User does not exist, create a new user record
             user = await createUser({ name: profile.name, email: profile.email, profileImage: profile.picture, googleId: profile.id });
@@ -162,9 +163,6 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
         }
 
         if (user.googleId != null) {
-            const token = generateJWTToken(user);
-            // Generate JWT token for user authentication
-            res.cookie('token', token, { httpOnly: true });
             res.redirect("http://localhost:5173/home");
             // { status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
         } 
