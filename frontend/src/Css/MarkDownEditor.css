@@ -43,7 +43,6 @@
     --admonitionNoteBg: var(--mauve-4);
     --admonitionNoteBorder: var(--mauve-8);
 
-    font-family: cursive;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
     color: var(--baseText);
