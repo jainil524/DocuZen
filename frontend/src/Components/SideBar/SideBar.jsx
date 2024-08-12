@@ -6,7 +6,7 @@ import {
   FaChevronUp
 } from 'react-icons/fa';
 import Cookies from "universal-cookie";
-import './Sidebar.css'; // Optional: Add your custom styles here
+import './SideBar.css'; // Optional: Add your custom styles here
 
 const SideBar = ({ setDoc }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
