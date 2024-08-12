@@ -15,6 +15,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  gap: .3rem;
   max-width: var(--dl-size-size-maxwidth);
   align-items: center;
   padding: 1rem 2rem;

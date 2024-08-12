@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import './cta.css'
+import { Link } from 'react-router-dom'
 
 const CTA = (props) => {
   return (
@@ -16,9 +17,11 @@ const CTA = (props) => {
                 <p className="thq-body-large">{props.content1}</p>
               </div>
               <div className="cta-actions">
-                <button type="button" className="thq-button-filled cta-button">
-                  {props.action1}
-                </button>
+                <Link to='/register'>
+                  <button type="button" className="thq-button-filled cta-button">
+                    {props.action1}
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

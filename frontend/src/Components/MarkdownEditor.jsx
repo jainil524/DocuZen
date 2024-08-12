@@ -26,7 +26,6 @@ import {
     CreateLink,
     DiffSourceToggleWrapper,
     ConditionalContents,
-    ChangeCodeMirrorLanguage,
     ShowSandpackInfo
 } from '@mdxeditor/editor';
 import PropTypes from 'prop-types';
@@ -52,7 +51,7 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
                 </div>
             );
             }
-            `.trim()
+        `.trim()
 
     const simpleSandpackConfig = {
         defaultPreset: 'react',
@@ -62,7 +61,7 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
                 name: 'react',
                 meta: 'live react',
                 sandpackTemplate: 'react',
-                sandpackTheme: 'light',
+                sandpackTheme: 'dark',
                 snippetFileName: '/App.js',
                 snippetLanguage: 'jsx',
                 initialSnippetContent: defaultSnippetContent
@@ -101,7 +100,6 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
                             <>
                                 <ConditionalContents
                                     options={[
-                                        { when: (editor) => editor?.editorType === 'codeblock', contents: () => <ChangeCodeMirrorLanguage /> },
                                         { when: (editor) => editor?.editorType === 'sandpack', contents: () => <ShowSandpackInfo /> },
                                         {
                                             fallback: () => (<>

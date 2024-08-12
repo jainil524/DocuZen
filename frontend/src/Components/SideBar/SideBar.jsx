@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FaHistory,
   FaFile,
   FaChevronDown,
   FaChevronUp
 } from 'react-icons/fa';
-import {useCookies } from "react-cookie"
 import Cookies from "universal-cookie";
 import './Sidebar.css'; // Optional: Add your custom styles here
 
@@ -26,7 +25,6 @@ const SideBar = () => {
   useEffect(() => {
 
     let token = cookies.get("token") || localStorage.getItem("token");
-    console.log("Token from Cookies: ", token);
 
     const fetchDocHistory = async () => {
       try {
@@ -36,9 +34,8 @@ const SideBar = () => {
             "Authorization": `${token}`,
             "Content-Type": "application/json",
           },
-        });x
+        });
         const result = await response.json();
-        console.log("Fetch result: ", result);
         setDocumentHistory(result.data.Document || []);
       } catch (error) {
         console.error("Error fetching document history: ", error);
@@ -52,7 +49,13 @@ const SideBar = () => {
     <div className={`sidebar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <div className="sidebar-header" onClick={toggleCollapse}>
         <img src='/public/favicon1/favicon-16x16.png' />
-        {isCollapsed ? <FaChevronDown /> : <FaChevronUp />}
+        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+          <g id="SVGRepo_iconCarrier">
+            <path d="M4 18L20 18" stroke="#fff" strokeWidth="2" strokeLinecap="round"></path>
+            <path d="M4 12L20 12" stroke="#fff" strokeWidth="2" strokeLinecap="round"></path>
+            <path d="M4 6L20 6" stroke="#fff" strokeWidth="2" strokeLinecap="round"></path>
+          </g>
+        </svg>
       </div>
       <div className={`sidebar-menu ${isCollapsed ? 'hidden' : 'visible'}`}>
 
@@ -74,7 +77,7 @@ const SideBar = () => {
                   ?
                   (
                     documentHistory.map((doc) => (
-                      <div data-docId={doc.documentId}>
+                      <div key={doc.documentId} data-doc-id={doc.documentId}>
                         <span>
                           {doc.documentName}
                         </span>
