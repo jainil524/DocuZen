@@ -87,12 +87,12 @@ const login = asyncHandler(async (req, res) => {
             }
             const isAdmin = user.role == 'admin';
             console.log(user);
-    
+
             const token = generateJWTToken(user);
             res.json({ status: "success", data: { message: 'Login successful', role: user.role, isAdmin: isAdmin, token: token }, hasData: true });
-        }else{
+        } else {
 
-            res.cookie('token', token );
+            res.cookie('token', token);
             res.cookie('role', user.role);
             res.cookie('isAdmin', isAdmin);
 
@@ -100,9 +100,9 @@ const login = asyncHandler(async (req, res) => {
 
 
         }
-        
 
-       
+
+
 
     } catch (error) {
         console.error('Login error:', error);
@@ -149,11 +149,14 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
 
         // Check if user already exists in database by email
         let user = await User.findOne({ email: profile.email });
-        const token = generateJWTToken(user);
-        res.cookie('token', token);
+
         if (!user) {
+
             // User does not exist, create a new user record
             user = await createUser({ name: profile.name, email: profile.email, profileImage: profile.picture, googleId: profile.id });
+
+            const token = generateJWTToken(user);
+            res.cookie('token', token);
 
             if (user.status === "error") {
                 return res.status(400).json({ status: "error", data: { message: 'Error creating user' }, hasData: false });
@@ -163,10 +166,13 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
         }
 
         if (user.googleId != null) {
+            const token = generateJWTToken(user);
+            res.cookie('token', token);
+
             res.redirect("http://localhost:5173/home");
             // { status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
-        } 
-        
+        }
+
         console.log(user);
     } catch (error) {
         console.error('Error:', error); // Log the error message for debugging

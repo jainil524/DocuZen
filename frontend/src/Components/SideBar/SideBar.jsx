@@ -5,7 +5,6 @@ import {
   FaChevronDown,
   FaChevronUp
 } from 'react-icons/fa';
-import {useCookies } from "react-cookie"
 import Cookies from "universal-cookie";
 import './Sidebar.css'; // Optional: Add your custom styles here
 
@@ -36,7 +35,7 @@ const SideBar = () => {
             "Authorization": `${token}`,
             "Content-Type": "application/json",
           },
-        });x
+        });
         const result = await response.json();
         console.log("Fetch result: ", result);
         setDocumentHistory(result.data.Document || []);
