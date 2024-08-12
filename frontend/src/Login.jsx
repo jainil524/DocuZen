@@ -16,7 +16,7 @@ function Login() {
       return;
     }
 
-    fetch(`${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/auth/login`, {
+    fetch(`${import.meta.env.REQUEST_TO_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function Login() {
   };
 
   const signinWithGoogle = () => {
-    window.location.href = `${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/auth/google`;
+    window.location.href = `${import.meta.env.REQUEST_TO_URL}/api/auth/google`;
   };
 
   return (

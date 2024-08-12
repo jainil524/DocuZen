@@ -27,7 +27,7 @@ const SideBar = ({ setDoc }) => {
   const handleOpenDoc = async (docId) => {
     let token = cookies.get("token") || localStorage.getItem("token");
 
-    let response = await fetch(`${import.meta.env.REQUEST_TO_URL}:${import.meta.env.BACKEND_PORT}/api/projects/getdocwhole`, {
+    let response = await fetch(`${import.meta.env.REQUEST_TO_URL}/api/projects/getdocwhole`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
