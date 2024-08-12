@@ -1,20 +1,43 @@
-import React from 'react'
-
 import PropTypes from 'prop-types'
 
 import './footer.css'
 
-const Footer = (props) => {
+const Footer = ({
+  logoSrc = '/public/favicon1/favicon-32x32.png',
+  logoAlt = 'DocuZen Logo',
+  action1 = 'Subscribe to Newsletter',
+  content2 = 'Stay updated with our latest news and features.',
+  content3 = '© 2023 DocuZen. All rights reserved.',
+  column1Title = 'Contact Information',
+  column2Title = 'Quick Links',
+  socialLinkTitleCategory = 'Follow Us',
+  privacyLink = '/privacy-policy',
+  termsLink = '/terms-of-service',
+  cookiesLink = '/cookies-policy',
+  link1 = 'support@docuzen.com',
+  link2 = '123-456-7890',
+  link3 = '123 Street, City, Country',
+  link4 = 'FAQs',
+  link5 = 'Privacy Policy',
+  link6 = 'Terms of Service',
+  link7 = 'Facebook',
+  link8 = 'Twitter',
+  link9 = 'LinkedIn',
+  link10 = 'Instagram'
+}) => {
   return (
     <footer className="footer-footer1 thq-section-padding">
       <div className="footer-max-width thq-section-max-width">
         <div className="footer-content">
           <div className="footer-newsletter">
-            <img
-              alt={props.logoAlt}
-              src={props.logoSrc}
-              className="footer-image1"
-            />
+            <div className="logo-container">
+              <img
+                alt={logoAlt}
+                src={logoSrc}
+                className="footer-image1"
+              />
+              DocuZen
+            </div>
             <span className="thq-body-small">
               Subscribe to our newsletter for the latest updates on new features
               and product releases.
@@ -29,18 +52,18 @@ const Footer = (props) => {
                   />
                 </div>
                 <button className="thq-button-outline footer-button">
-                  <span className="thq-body-small">{props.action1}</span>
+                  <span className="thq-body-small">{action1}</span>
                 </button>
               </div>
               <span className="footer-content2 thq-body-small">
-                {props.content2}
+                {content2}
               </span>
             </div>
           </div>
           <div className="footer-links">
             <div className="footer-column1">
               <strong className="thq-body-large footer-column1-title">
-                {props.column1Title}
+                {column1Title}
               </strong>
               <div className="footer-footer-links">
                 <a
@@ -49,7 +72,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link1}
+                  {link1}
                 </a>
                 <a
                   href="https://example.com"
@@ -57,7 +80,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link2}
+                  {link2}
                 </a>
                 <a
                   href="https://example.com"
@@ -65,7 +88,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link3}
+                  {link3}
                 </a>
                 <a
                   href="https://example.com"
@@ -73,7 +96,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link4}
+                  {link4}
                 </a>
                 <a
                   href="https://example.com"
@@ -81,13 +104,13 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link5}
+                  {link5}
                 </a>
               </div>
             </div>
             <div className="footer-column2">
               <strong className="thq-body-large footer-column2-title">
-                {props.column2Title}
+                {column2Title}
               </strong>
               <div className="footer-footer-links1">
                 <a
@@ -96,7 +119,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link6}
+                  {link6}
                 </a>
                 <a
                   href="https://example.com"
@@ -104,7 +127,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link7}
+                  {link7}
                 </a>
                 <a
                   href="https://example.com"
@@ -112,7 +135,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link8}
+                  {link8}
                 </a>
                 <a
                   href="https://example.com"
@@ -120,7 +143,7 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link9}
+                  {link9}
                 </a>
                 <a
                   href="https://example.com"
@@ -128,13 +151,13 @@ const Footer = (props) => {
                   rel="noreferrer noopener"
                   className="thq-body-small"
                 >
-                  {props.link10}
+                  {link10}
                 </a>
               </div>
             </div>
             <div className="footer-column3">
               <strong className="thq-body-large footer-social-link1-title">
-                {props.socialLinkTitleCategory}
+                {socialLinkTitleCategory}
               </strong>
               <div className="footer-social-links">
                 <div className="footer-link">
@@ -186,11 +209,11 @@ const Footer = (props) => {
         <div className="footer-credits">
           <div className="thq-divider-horizontal"></div>
           <div className="footer-row">
-            <span className="thq-body-small">{props.content3}</span>
+            <span className="thq-body-small">{content3}</span>
             <div className="footer-footer-links2">
-              <span className="thq-body-small">{props.privacyLink}</span>
-              <span className="thq-body-small">{props.termsLink}</span>
-              <span className="thq-body-small">{props.cookiesLink}</span>
+              <span className="thq-body-small">{privacyLink}</span>
+              <span className="thq-body-small">{termsLink}</span>
+              <span className="thq-body-small">{cookiesLink}</span>
             </div>
           </div>
         </div>
@@ -199,29 +222,6 @@ const Footer = (props) => {
   )
 }
 
-Footer.defaultProps = {
-  column2Title: 'Quick Links',
-  link7: 'Facebook',
-  link5: 'Privacy Policy',
-  link8: 'Twitter',
-  action1: 'Subscribe to Newsletter',
-  content3: '© 2023 DocuZen. All rights reserved.',
-  link4: 'FAQs',
-  logoSrc: 'https://presentation-website-assets.teleporthq.io/logos/logo.png',
-  cookiesLink: '/cookies-policy',
-  content2: 'Stay updated with our latest news and features.',
-  link9: 'LinkedIn',
-  link6: 'Terms of Service',
-  logoAlt: 'DocuZen Logo',
-  link1: 'support@docuzen.com',
-  privacyLink: '/privacy-policy',
-  link10: 'Instagram',
-  column1Title: 'Contact Information',
-  termsLink: '/terms-of-service',
-  link3: '123 Street, City, Country',
-  link2: '123-456-7890',
-  socialLinkTitleCategory: 'Follow Us',
-}
 
 Footer.propTypes = {
   column2Title: PropTypes.string,
