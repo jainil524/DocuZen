@@ -96,7 +96,7 @@ const ToolBar = ({ onSave }) => {
 };
 
 ToolBar.propTypes = {
-  onSave: PropTypes.func.isRequired
+  onSave: PropTypes.func
 }
 
 export default ToolBar;

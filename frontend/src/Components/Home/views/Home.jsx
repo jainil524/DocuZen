@@ -32,7 +32,6 @@ const Home = (props) => {
       <Hero></Hero>
       <Features1></Features1>
       <CTA></CTA>
-      <Features2></Features2>
       <Steps></Steps>
       <Testimonial></Testimonial>
       <Footer></Footer>

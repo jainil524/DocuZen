@@ -70,14 +70,22 @@
     overflow-y: scroll;
 }
 
+.mdx-editor::-webkit-scrollbar {
+    width: .5rem;
+}
+
 .copy-btn {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    z-index: 1000;
+    z-index: 10;
     display: flex;
     gap: 0.5rem;
     place-items: center
+}
+
+.mdxeditor .cm-editor .co {
+    background-color: #1e1e1e !important;
 }
 
 button._selectTrigger_uazmk_305,

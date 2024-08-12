@@ -14,10 +14,7 @@ const Steps = (props) => {
               Discover the Power of Our Products
             </h2>
             <p className="thq-body-large">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse varius enim in eros elementum tristique. Duis cursus,
-              mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam
-              libero vitae erat.
+              Transform your development process with seamless and intuitive API documentation. DocuZen simplifies the complexity, allowing you to focus on building and innovating.
             </p>
             <div className="steps-actions">
               <button className="thq-button-animated thq-button-filled steps-button">

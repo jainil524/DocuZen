@@ -5,11 +5,6 @@ import PropTypes from 'prop-types'
 import './navbar.css'
 
 const Navbar = ({
-  link1 = 'Home',
-  link5 = 'Contact',
-  link2 = 'Features',
-  link3 = 'Pricing',
-  link4 = 'About',
   imageAlt = 'image',
   text = undefined,
 }) => {
@@ -32,11 +27,6 @@ const Navbar = ({
           )}
         </span>
         <nav className="navbar-links">
-          <span className="thq-link thq-body-small">{link1}</span>
-          <span className="thq-link thq-body-small">{link2}</span>
-          <span className="thq-link thq-body-small">{link3}</span>
-          <span className="thq-link thq-body-small">{link4}</span>
-          <span className="thq-link thq-body-small">{link5}</span>
         </nav>
 
         <div className="navbar-buttons1">
