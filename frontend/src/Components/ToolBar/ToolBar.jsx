@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import { saveAs } from 'file-saver';
 import { marked } from 'marked';
-import htmlToPdfmake from 'html-to-pdfmake';
+import htmlToPdfmake from "html-to-pdfmake";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { FaDownload, FaFilePdf } from 'react-icons/fa';
