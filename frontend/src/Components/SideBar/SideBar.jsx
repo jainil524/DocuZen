@@ -26,7 +26,7 @@ const SideBar = ({ setDoc }) => {
   const handleOpenDoc = async (docId) => {
     let token = cookies.get("token") || localStorage.getItem("token");
 
-    let response = await fetch(`${import.meta.env.REQUEST_TO_URL}/api/projects/getdocwhole`, {
+    let response = await fetch(`${import.meta.env.VITE_REQUEST_TO_URL}/api/projects/getdocwhole`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const SideBar = ({ setDoc }) => {
 
     const fetchDocHistory = async () => {
       try {
-        const response = await fetch(`${process.env.REQUEST_TO_URL}:${process.env.BACKEND_PORT}/api/projects/get-all-document`, {
+        const response = await fetch(`${import.meta.env.VITE_REQUEST_TO_URL}/api/projects/get-all-document`, {
           method: "POST",
           headers: {
             "Authorization": `${token}`,

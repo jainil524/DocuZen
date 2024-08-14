@@ -16,7 +16,7 @@ function Register() {
       return;
     }
 
-    fetch(`${import.meta.env.REQUEST_TO_URL}/api/auth/register`, {
+    fetch(`${import.meta.env.VITE_REQUEST_TO_URL}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ function Register() {
   };
 
   const signupWithGoogle = () => {
-    window.location.href = `${import.meta.env.REQUEST_TO_URL}/api/auth/google`;
+    window.location.href = `${import.meta.env.VITE_REQUEST_TO_URL}/api/auth/google`;
   };
 
   return (

@@ -96,14 +96,10 @@ const login = asyncHandler(async (req, res) => {
             res.cookie('role', user.role);
             res.cookie('isAdmin', isAdmin);
 
-            return res.redirect(`${process.env.REQUEST_TO_URL}/home`);
+            return res.redirect(`${process.env.REDIRECT_URL}/home`);
 
 
         }
-
-
-
-
     } catch (error) {
         console.error('Login error:', error);
         return res.status(500).json({ status: "error", data: { message: 'Internal server error' }, hasData: false });
@@ -116,6 +112,7 @@ const googleLogin = asyncHandler(async (req, res) => {
     const REDIRECT_URI = `${process.env.REQUEST_TO_URL}/api/auth/googleLogin`;
 
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
+
     res.redirect(url);
 });
 
@@ -168,14 +165,14 @@ const googleLoginCallback = asyncHandler(async (req, res) => {
             const token = generateJWTToken(user);
             res.cookie('token', token);
 
-            res.redirect(`${process.env.REQUEST_TO_URL}/home`);
+            res.redirect(`${process.env.REDIRECT_URL}/home`);
             // { status: "success", data: { message: 'Google login successfull', role: user.role, token: token }, hasData: true });
         }
 
         console.log(user);
     } catch (error) {
         console.error('Error:', error); // Log the error message for debugging
-        res.redirect(`${process.env.REQUEST_TO_URL}:${process.env.PORT}/login`); // Redirect to login page on error  
+        res.redirect(`${process.env.REDIRECT_URL}:${process.env.PORT}/login`); // Redirect to login page on error  
     }
 });
 

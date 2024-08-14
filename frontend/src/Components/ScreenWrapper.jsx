@@ -73,7 +73,7 @@ export default function ScreenWrapper({ doc }) {
     const handleSave = (async (title) => {
         const token = cookies.get('token') || localStorage.getItem("token");
 
-        let response = await fetch(`${import.meta.env.REQUEST_TO_URL}/api/projects/create-document`, {
+        let response = await fetch(`${import.meta.env.VITE_REQUEST_TO_URL}/api/projects/create-document`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

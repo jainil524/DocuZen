@@ -23,7 +23,7 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
     setIsGenerating(true);
     let token = cookies.get("token") || localStorage.getItem("token");
 
-    const result = await fetch(`${import.meta.env.REQUEST_TO_URL}/api/projects/generate-document`,
+    const result = await fetch(`${import.meta.env.VITE_REQUEST_TO_URL}/api/projects/generate-document`,
       {
         method: "POST",
         headers: {
@@ -39,12 +39,12 @@ export default function CodeEditor({ genDoc, setEditorRef }) {
     const data = await result.text();
     setIsGenerating(false);
     genDoc(data);
-    
+
   }
 
   return <div className='codeEditor'>
     <Editor height="100vh" defaultLanguage="javascript" theme="vs-dark" defaultValue="//Enter Your code here..." onMount={handleEditorDidMount} />
-    <button style={{ display: "flex", gap: ".4rem", alignItems: "center" }} className='generate-doc-btn' onClick={GenerateDocument}> <img width="18px" height="18px" src="/public/ai-technology.png" />{isGenerating?"Generating...":"Generate Document"}</button>
+    <button style={{ display: "flex", gap: ".4rem", alignItems: "center" }} className='generate-doc-btn' onClick={GenerateDocument}> <img width="18px" height="18px" src="/public/ai-technology.png" />{isGenerating ? "Generating..." : "Generate Document"}</button>
   </div>
 }
 
