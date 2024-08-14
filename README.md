@@ -1,307 +1,102 @@
-## Register (Create a new user)
-**Endpoint:** `/api/auth/register`  
-**Method:** `POST`  
-**Header:** `null`
+# DocuZen
 
-### Request Body
-- **name** (String, REQUIRED): The user's full name.
-- **address** (String, REQUIRED): The user's address.
-- **city** (String, REQUIRED): The user's city.
-- **country** (String, REQUIRED): The user's country.
-- **phone** (String, REQUIRED): The user's phone number.
-- **password** (String, REQUIRED): The user's password.
-- **email** (String, REQUIRED): The user's email address.
+docuzen is a powerful tool that allows developers to manage their API documentation effortlessly. With features like login, registration, and AI-powered document creation, you can easily generate, update, and manage your API docs.
 
-### Responses
-- **201 - Created**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "User registered successfully"
-      },
-      "hasData": true
-    }
+## Features
+
+- **User Authentication**
+  - **Login:** Securely log in to your account using your credentials.
+  - **Register:** Create a new account to start managing your API documentation.
+
+- **AI-Powered Document Creation**
+  - **Create API Documentation:** Utilize AI to automatically generate comprehensive documentation for your API code, saving time and ensuring consistency.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 
+- NPM or Yarn
+- MongoDB 
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/docuzen.git
+   ```
+   
+2. Navigate to the project frontend directory:
+   ```bash
+   cd docuzen/frontend
+   ```
+   
+3. Install the dependencies:
+   ```bash
+   npm install
+    ```
+   or
+   ```bash
+   yarn install
+    ```
+   
+4. Navigate to backend directory
+   ```bash
+   cd docuzen/backend
+   ```
+
+5. Install the dependencies:
+     ```bash
+   npm install
+    ```
+   or
+   ```bash
+   yarn install
     ```
 
-- **400 - Bad Request**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "Email already exists"
-      },
-      "hasData": false
-    }
+6. Set up your environment variables:
+- Rename a .env-sample file to .env in the backend directory
+- Change the following variables
+    ```bash
+    MONGO_URI=your_mongodb_connection_string
+    JWT_SECRET=your_jwt_secret
+    GOOGLE_API_KEY=your_ai_api_key
+    GOOGLE_AUTH_CLIENT_ID=your_auth_key
+    GOOGLE_AUTH_CLIENT_SECRET=your_auth_key
     ```
 
----
-
-## Login (Authenticate user)
-**Endpoint:** `/api/auth/login`  
-**Method:** `POST`  
-**Header:** `null`
-
-### Request Body
-- **email** (String, REQUIRED): The user's email address.
-- **password** (String, REQUIRED): The user's password.
-
-### Responses
-- **200 - OK**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "Login successful",
-        "role": "user",
-        "isAdmin": false,
-        "token": "JWT_TOKEN"
-      },
-      "hasData": true
-    }
+7. Start backend Server:
+   ```bash
+   cd docuzen/backend
+   node index.js
+   ```
+   
+8. Start frontend Server:
+    ```bash
+    cd docuzen/frontend
+    npm run dev
     ```
 
-- **401 - Unauthorized**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "No user founded with this credentials" 
-      },
-      "hasData": false
-    }
-    ```
 
-- **401 - Unauthorized**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "Invalid password"
-      },
-      "hasData": false
-    }
-    ```
+# Usage
+- Login/Register:
 
-- **500 - Internal Server Error**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "Internal server error"
-      },
-      "hasData": false
-    }
-    ```
+    - Access the login or register page to authenticate yourself.
+    - Once logged in, you can start creating or managing your API documentation.
+    
+- Create API Documentation:
 
----
+    - Use the AI-powered tool to generate documentation from your API code.
+    - The AI will analyze your code and create detailed documentation, including endpoint descriptions, parameters, and response formats.
 
-## Token Validate (Validate JWT token)
-**Endpoint:** `/api/auth/tokenValidate`  
-**Method:** `GET`  
-**Header:** `Authorization: Bearer JWT_TOKEN`
 
-### Responses
-- **200 - OK**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "Token is valid"
-      },
-      "hasData": false
-    }
-    ```
+# Contributing
+We welcome contributions! Please fork the repository and submit a pull request.
 
-- **401 - Unauthorized**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "Access denied"
-      },
-      "hasData": false
-    }
-    ```
 
-- **401 - Unauthorized**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "Invalid token"
-      },
-      "hasData": false
-    }
-    ```
+# License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
----
-
-## Logout (Log out user)
-**Endpoint:** `/api/auth/logout`  
-**Method:** `POST`  
-**Header:** `Authorization: Bearer JWT_TOKEN`
-
-### Responses
-- **200 - OK**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "Logged out successfully"
-      },
-      "hasData": false
-    }
-    ```
-
----
-
-## Google Login (Initiate Google login)
-**Endpoint:** `/api/auth/googleLogin`  
-**Method:** `GET`  
-**Header:** `null`
-
-### Responses
-- **302 - Found**
-  - Redirects to Google OAuth2 authorization page.
-
----
-
-## Google Login Callback (Handle Google login callback)
-**Endpoint:** `/api/auth/googleLogin`  
-**Method:** `GET`  
-**Header:** `null`
-
-### Request Body
-- **code** (String, REQUIRED): The authorization code received from Google.
-
-### Responses
-- **200 - OK**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "Google login successfull",
-        "role": "user",
-        "token": "JWT_TOKEN"
-      },
-      "hasData": true
-    }
-    ```
-
-- **302 - Found**
-  - Redirects to login page on error.
-
----
-
-## Google Data (Get Google profile data)
-**Endpoint:** `/api/auth/googleData`  
-**Method:** `POST`  
-**Header:** `Authorization: Bearer JWT_TOKEN`
-
-### Request Body
-- **profile** (Object, REQUIRED): The Google profile data.
-
-### Responses
-- **200 - OK**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "Google login successfull",
-        "profile": { /* Google profile data */ }
-      },
-      "hasData": true
-    }
-    ```
-
----
-
-## Change Password (Update user's password)
-**Endpoint:** `/api/auth/changePassword`  
-**Method:** `POST`  
-**Header:** `Authorization: Bearer JWT_TOKEN`
-
-### Request Body
-- **oldPassword** (String, REQUIRED): The user's current password.
-- **newPassword** (String, REQUIRED): The user's new password.
-
-### Responses
-- **200 - OK**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "Password changed successfully"
-      },
-      "hasData": false
-    }
-    ```
-
-- **401 - Unauthorized**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "Invalid password"
-      },
-      "hasData": false
-    }
-    ```
-
-- **404 - Not Found**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "User not found"
-      },
-      "hasData": false
-    }
-    ```
-
----
-
-## Delete Account (Delete user account)
-**Endpoint:** `/api/auth/deleteAccount`  
-**Method:** `DELETE`  
-**Header:** `Authorization: Bearer JWT_TOKEN`
-
-### Request Body
-- **password** (String, REQUIRED): The user's current password.
-
-### Responses
-- **200 - OK**
-    ```js
-    {
-      "status": "success",
-      "data": {
-        "message": "Account deleted successfully"
-      },
-      "hasData": false
-    }
-    ```
-
-- **401 - Unauthorized**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "Invalid password"
-      },
-      "hasData": false
-    }
-    ```
-
-- **404 - Not Found**
-    ```js
-    {
-      "status": "error",
-      "data": {
-        "message": "User not found"
-      },
-      "hasData": false
-    }
-    ```
-
---- 
+```bash
+Feel free to customize the details as needed, such as the installation steps, project description, or any additional sections you want to include.
+```
