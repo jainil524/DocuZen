@@ -5,7 +5,7 @@ import {
   FaChevronUp
 } from 'react-icons/fa';
 import Cookies from "universal-cookie";
-import './Sidebar.css'; // Optional: Add your custom styles here
+import './SideBar.css'; // Optional: Add your custom styles here
 
 const SideBar = ({ setDoc }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -26,7 +26,7 @@ const SideBar = ({ setDoc }) => {
   const handleOpenDoc = async (docId) => {
     let token = cookies.get("token") || localStorage.getItem("token");
 
-    let response = await fetch(`http://localhost:3000/api/projects/getdocwhole`, {
+    let response = await fetch(`${import.meta.env.REQUEST_TO_URL}/api/projects/getdocwhole`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const SideBar = ({ setDoc }) => {
 
     const fetchDocHistory = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/projects/get-all-document", {
+        const response = await fetch(`${process.env.REQUEST_TO_URL}:${process.env.BACKEND_PORT}/api/projects/get-all-document`, {
           method: "POST",
           headers: {
             "Authorization": `${token}`,
