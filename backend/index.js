@@ -1,0 +1,41 @@
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import validateUser from './middleware/validateUser.js';
+import Auth from './routes/Auth/auth.js';
+import user from './routes/User/user.js';
+import admin from './routes/Admin/admin.js';
+
+import path from 'path';
+const __dirname = path.resolve();
+
+// Load environment variables from .env file
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use('/api/auth', Auth);
+app.use('/api/user', validateUser, user);
+app.use('/api/admin', validateUser, admin);
+app.use('/api/projects', validateUser, admin);
+
+// for google login
+// app.get("/gl",(req,res)=>{
+//     res.sendFile(__dirname + "/login.html");
+// })
+
+app.listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`);
+});
