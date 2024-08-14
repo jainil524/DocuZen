@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   FaHistory,
-  FaFile,
   FaChevronDown,
   FaChevronUp
 } from 'react-icons/fa';

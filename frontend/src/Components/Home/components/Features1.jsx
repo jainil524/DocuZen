@@ -1,36 +1,24 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import PropTypes from 'prop-types'
 
 import './features1.css'
 
 const Features1 = (props) => {
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState(0);
   return (
     <div className="thq-section-padding">
       <div className="features1-container1 thq-section-max-width">
         <div className="features1-image-container">
-          {activeTab === 0 && (
-            <img
-              alt={props.feature1ImgAlt}
-              src={props.feature1ImgSrc}
-              className="features1-image thq-img-ratio-16-9"
-            />
-          )}
-          {activeTab === 1 && (
-            <img
-              alt={props.feature2ImgAlt}
-              src={props.feature2ImgSrc}
-              className="features1-image1 thq-img-ratio-16-9"
-            />
-          )}
-          {activeTab === 2 && (
-            <img
-              alt={props.feature3ImgAlt}
-              src={props.feature3ImgSrc}
-              className="features1-image2 thq-img-ratio-16-9"
-            />
-          )}
+          <video
+            alt={props.feature1ImgAlt}
+            src='/DocZen.mp4'
+            loop
+            autoPlay={true}
+            muted
+            className="features1-image thq-img-ratio-16-9"
+          />
+
         </div>
         <div className="features1-tabs-menu">
           <div
