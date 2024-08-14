@@ -6,6 +6,7 @@ import {
 } from 'react-icons/fa';
 import Cookies from "universal-cookie";
 import './SideBar.css'; // Optional: Add your custom styles here
+import PropTypes from 'prop-types';
 
 const SideBar = ({ setDoc }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -115,5 +116,9 @@ const SideBar = ({ setDoc }) => {
     </div>
   );
 };
+
+SideBar.propTypes = {
+  setDoc: PropTypes.func
+}
 
 export default SideBar;
