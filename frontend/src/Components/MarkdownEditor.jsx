@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import {
     MDXEditor,
-
     headingsPlugin,
     listsPlugin,
     tablePlugin,
@@ -15,7 +14,6 @@ import {
     diffSourcePlugin,
     linkPlugin,
     linkDialogPlugin,
-
     InsertCodeBlock,
     InsertSandpack,
     InsertTable,
@@ -28,19 +26,19 @@ import {
     ConditionalContents,
     ShowSandpackInfo
 } from '@mdxeditor/editor';
-import PropTypes from 'prop-types';
 import '@mdxeditor/editor/style.css';
 import '../Css/MarkDownEditor.css';
 
 import '../App.css';
+import { DocumentContext } from './Provider/DocumentProvider';
 
-function MarkdownEditor({ markDownText, setMDXRef }) {
-    const MDXEditorRef = useRef(null);
+function MarkdownEditor() {
+    const { mdxRef, documentation } = useContext(DocumentContext);
 
     useEffect(() => {
-        setMDXRef(MDXEditorRef);
-    }, [MDXEditorRef]);
-
+        mdxRef?.current?.insertMarkdown(documentation);
+        mdxRef?.current?.setMarkdown(documentation);
+    }, [documentation, mdxRef])
 
     const defaultSnippetContent = `
             export default function App() {
@@ -70,18 +68,17 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
     }
 
     const copyText = () => {
-        const code = MDXEditorRef.current?.getMarkdown();
-        console.log(code);
+        const code = mdxRef.current?.getMarkdown();
         navigator.clipboard.writeText(code);
     }
 
     return (
         <div className='markDown'>
             <MDXEditor
+                ref={mdxRef}
                 style={{ color: "white" }}
                 className="mdx-editor dark-theme dark-editor"
-                ref={MDXEditorRef}
-                markdown={markDownText}
+                markdown={documentation}
                 plugins={[
                     headingsPlugin(),
                     listsPlugin(),
@@ -91,7 +88,6 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
                     tablePlugin(),
                     linkPlugin(), linkDialogPlugin(),
                     diffSourcePlugin({ diffMarkdown: '', viewMode: 'rich-text' }),
-                    // the default code block language to insert when the user clicks the "insert code block" button
                     codeBlockPlugin({ defaultCodeBlockLanguage: 'json' }),
                     sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
                     codeMirrorPlugin({ codeBlockLanguages: { json: "JavaScript", js: "Javascript" } }),
@@ -145,9 +141,5 @@ function MarkdownEditor({ markDownText, setMDXRef }) {
     );
 }
 
-MarkdownEditor.propTypes = {
-    markDownText: PropTypes.string.isRequired,
-    setMDXRef: PropTypes.func.isRequired
-}
 
 export default MarkdownEditor;

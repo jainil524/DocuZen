@@ -53,13 +53,15 @@
   margin-left: 10px;
 }
 
-.history-content {
-  padding-left: 20px;
-  background-color: #444;
+
+.history-content div {
+  padding: .2rem;
+  padding-left: 1rem;
+  cursor: pointer;
 }
 
-.history-content p {
-  margin: 10px 0;
+.history-content div:hover {
+  background-color: #444;
 }
 
 .hidden {

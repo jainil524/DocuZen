@@ -1,5 +1,4 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { promises as fs } from "fs";
 import { readFileSync } from "fs";
 
 import dotenv from "dotenv";
