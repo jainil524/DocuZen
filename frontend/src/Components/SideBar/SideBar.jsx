@@ -12,8 +12,7 @@ import { DocumentContext } from '../Provider/DocumentProvider';
 const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
-  const [documentHistory, setDocumentHistory] = useState([]);
-  const { setDocumentation, setCode } = useContext(DocumentContext);
+  const { setDocumentation, setCode, setHistory, history } = useContext(DocumentContext);
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -30,14 +29,14 @@ const SideBar = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const history = await fetchDocHistory();
-      setDocumentHistory(history);
+      const historyData = await fetchDocHistory();
+      setHistory(historyData);
     }
 
     fetchData();
-  }, []);
+  }, [setHistory]);
 
-  const changeDocumentCotent = async (doc) => {
+  const changeDocumentContent = async (doc) => {
     const data = await openDoc(doc.documentId);
 
     let markdownContent = data.data.Document.documentContent;
@@ -46,10 +45,12 @@ const SideBar = () => {
     setDocumentation(markdownContent);
     setCode(data.data.Document.referedCode);
   }
+
   return (
     <div className={`sidebar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <div className="sidebar-header" onClick={toggleCollapse}>
         <img src='/public/favicon1/favicon-16x16.png' />
+        <b style={{ display: `${isCollapsed ? "none" : "block"}` }}>DocuZen</b>
         <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
           <g id="SVGRepo_iconCarrier">
             <path d="M4 18L20 18" stroke="#fff" strokeWidth="2" strokeLinecap="round"></path>
@@ -70,25 +71,23 @@ const SideBar = () => {
             <span className="item-text">Documents</span>
             {isHistoryOpen ? <FaChevronUp className="collapse-icon" /> : <FaChevronDown className="collapse-icon" />}
           </div>
-          {isHistoryOpen && (
-            <div className="history-content">
-              {
-                documentHistory.length > 0
-                  ?
-                  (
-                    documentHistory.map((doc) => (
-                      <div key={doc.documentId} onClick={() => { changeDocumentCotent(doc) }} data-doc-id={doc.documentId}>
-                        <span>
-                          {doc.documentName}
-                        </span>
-                      </div>
-                    ))
-                  )
-                  :
-                  <div>No document created</div>
-              }
-            </div>
-          )}
+          <div className="history-content">
+            {isHistoryOpen && (
+              history.length > 0
+                ?
+                (
+                  history.map((doc) => (
+                    <div key={doc.documentId} onClick={() => { changeDocumentContent(doc) }} data-doc-id={doc.documentId}>
+                      <span>
+                        {doc.documentName}
+                      </span>
+                    </div>
+                  ))
+                )
+                :
+                <div>No document created</div>
+            )}
+          </div>
         </div>
 
       </div>

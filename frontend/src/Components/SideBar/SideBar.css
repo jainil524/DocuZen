@@ -36,6 +36,11 @@
   list-style: none;
 }
 
+.sidebar-section {
+  height: 100%;
+  overflow: auto;
+}
+
 .sidebar-item {
   display: flex;
   align-items: center;
@@ -53,6 +58,15 @@
   margin-left: 10px;
 }
 
+.history-content {
+  overflow: auto;
+  padding-bottom: 5rem;
+  height: 80vh;
+}
+
+.history-content::-webkit-scrollbar {
+  width: .3rem;
+}
 
 .history-content div {
   padding: .2rem;

@@ -152,7 +152,7 @@ const getAllDocuments = asyncHandler(async (req, res) => {
     try {
 
         // check if user exists or not
-        const Document = await Project.find({ userId: userId }, { documentId: 1, documentName: 1, documentContent: 1 });
+        const Document = await Project.find({ userId: userId }, { documentId: 1, documentName: 1 });
         res.status(200).json({ status: "success", data: { message: "Document fetched successfully", Document }, hasData: true });
     } catch (err) {
         console.log(err);

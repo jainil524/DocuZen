@@ -12,8 +12,8 @@ const fetchDocHistory = async () => {
                 "Content-Type": "application/json",
             },
         });
-        const result = await response.json();
 
+        const result = await response.json();
         return result.data.Document || [];
     } catch (error) {
         console.error("Error fetching document history: ", error);
