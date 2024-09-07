@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 import validateUser from './middleware/validateUser.js';
-
 import Auth from './routes/Auth/auth.js';
 import user from './routes/User/user.js';
 import admin from './routes/Admin/admin.js';

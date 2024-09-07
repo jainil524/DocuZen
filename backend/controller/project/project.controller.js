@@ -6,7 +6,7 @@ import Project from '../../models/project/project.model.js';
 import User from '../../models/user/user.model.js';
 import generateUUID from '../../utils/generateUUID.js';
 
-import { generateMarkdown } from '../../gemin.js';
+import { generateMarkdown } from '../../gemini.js';
 
 dotenv.config();
 dbConnect();
@@ -14,10 +14,9 @@ dbConnect();
 // get markdown content from the API document
 const getMarkdown = asyncHandler(async (req, res) => {
     const { code } = req.body;
-    console.log(req.body);
-
     try {
         const markdownContent = await generateMarkdown(code);
+        console.log(markdownContent);
 
         res.status(200).json({ status: "success", data: { message: "Markdown content generated successfully", markdownContent: markdownContent }, hasData: true });
         return;
@@ -120,7 +119,7 @@ const deleteDocument = asyncHandler(async (req, res) => {
         console.log(documentId, userId);
 
         // check if user exists or not
-        const Document = await Project.findOne({ documentId: documentId }, {documentId: 1, documentName: 1});
+        const Document = await Project.findOne({ documentId: documentId }, { documentId: 1, documentName: 1 });
 
         if (!Document || Document.length === 0) {
             res.status(404).json({ status: "error", data: { message: 'Document not found' }, hasData: false });
@@ -153,7 +152,7 @@ const getAllDocuments = asyncHandler(async (req, res) => {
     try {
 
         // check if user exists or not
-        const Document = await Project.find({ userId: userId }, { documentId: 1, documentName: 1, documentContent: 1 });
+        const Document = await Project.find({ userId: userId }, { documentId: 1, documentName: 1 });
         res.status(200).json({ status: "success", data: { message: "Document fetched successfully", Document }, hasData: true });
     } catch (err) {
         console.log(err);

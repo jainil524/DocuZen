@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import { saveAs } from 'file-saver';
@@ -6,14 +6,15 @@ import { marked } from 'marked';
 import htmlToPdfmake from "html-to-pdfmake";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { FaDownload, FaFilePdf } from 'react-icons/fa';
+import { FaCopy, FaDownload, FaFilePdf } from 'react-icons/fa';
 import './ToolBar.css';
-import PropTypes from 'prop-types';
+import { DocumentContext } from '../Provider/DocumentProvider';
+import saveDocument from '../../functionality/saveDocument';
 
-const ToolBar = ({ onSave, mdxRef }) => {
+const ToolBar = () => {
   const [title, setTitle] = useState('Document_Title');
   const [isEditing, setIsEditing] = useState(false);
-  const [content, setContent] = useState(null);
+  const { mdxRef, editorRef, setHistory } = useContext(DocumentContext);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -25,64 +26,53 @@ const ToolBar = ({ onSave, mdxRef }) => {
     };
   }, []);
 
-  useEffect(() => {
-    setContent("");
-  })
 
   // Handle title change
   const handleTitleChange = (e) => {
-
-    console.log("hello");
-
     setTitle(e.target.value);
   };
+
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   // Toggle between editable and non-editable state
   const toggleEdit = () => {
-    if (isEditing == false) {
-      if (title == "Add Title Here") {
-        setTitle("");
-      }
-    }
-
     setIsEditing(!isEditing);
   };
 
   // Handle download as MD
   const handleDownloadMD = useCallback(() => {
-    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+    const blob = new Blob([mdxRef.current?.getMarkdown()], { type: 'text/markdown;charset=utf-8' });
     saveAs(blob, `${title}.md`);
-  }, [content]);
+  }, []);
 
   // Handle download as PDF
   const handleDownloadPDF = () => {
-    let markdownContent = mdxRef.current.getMarkdown();
+    let markdownContent = mdxRef.current?.getMarkdown();
     markdownContent = markdownContent.replaceAll("```json", "\n");
 
     const htmlContent = marked(markdownContent);
-
-    // Convert HTML to a format suitable for PDFMake
     const pdfContent = htmlToPdfmake(htmlContent);
-
-    // Define the PDF document
     const documentDefinition = { content: pdfContent };
-
-    // Generate and download the PDF
     pdfMake.createPdf(documentDefinition).download('document.pdf');
   };
 
   // Handle save
-  const handleSave = useCallback(() => {
-    let result = onSave(title, content); // Pass title to onSave callback
+  const handleSave = useCallback(async () => {
+    let result = await saveDocument(title, mdxRef.current.getMarkdown(), editorRef.current.getValue());
+    let markdown = result.data.savedDocument;
 
-    console.log(result);
-  }, [content, title]);
+    setHistory([...history, [markdown._id, markdown.documentId, markdown.documentName]])
+  }, [title]);
 
   // Handle title blur to stop editing
   const handleBlur = () => {
     setIsEditing(false);
   };
+
+  const copyText = () => {
+    const code = mdxRef.current?.getMarkdown();
+    navigator.clipboard.writeText(code);
+  }
 
   return (
     <div className="toolbar">
@@ -117,16 +107,15 @@ const ToolBar = ({ onSave, mdxRef }) => {
             <FaFilePdf style={{ marginRight: '5px' }} />
             PDF
           </Dropdown.Item>
+          <Dropdown.Item onClick={copyText}>
+            <FaCopy style={{ marginRight: '5px' }} />
+            Copy
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
       <Button onClick={handleSave} variant="success">Save</Button>
     </div>
   );
 };
-
-ToolBar.propTypes = {
-  onSave: PropTypes.func,
-  mdxRef: PropTypes.object
-}
 
 export default ToolBar;

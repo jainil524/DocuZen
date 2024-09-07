@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   FaHistory,
   FaChevronDown,
   FaChevronUp
 } from 'react-icons/fa';
-import Cookies from "universal-cookie";
 import './SideBar.css'; // Optional: Add your custom styles here
-import PropTypes from 'prop-types';
+import fetchDocHistory from '../../functionality/fetchDocumentHistory';
+import openDoc from '../../functionality/openDocument';
+import { DocumentContext } from '../Provider/DocumentProvider';
 
-const SideBar = ({ setDoc }) => {
+const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
-  const [documentHistory, setDocumentHistory] = useState([]);
-  const cookies = new Cookies();
+  const { setDocumentation, setCode, setHistory, history } = useContext(DocumentContext);
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -21,56 +21,36 @@ const SideBar = ({ setDoc }) => {
   const toggleHistory = () => {
     setIsHistoryOpen(!isHistoryOpen);
   };
-  const newDoc = async () => {
-    setDoc([]);
-  }
-  const handleOpenDoc = async (docId) => {
-    let token = cookies.get("token") || localStorage.getItem("token");
 
-    let response = await fetch(`${import.meta.env.VITE_REQUEST_TO_URL}/api/projects/getdocwhole`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token
-      },
-      body: JSON.stringify({
-        documentId: docId
-      })
-    });
-
-    let result = await response.json();
-
-    console.log(result);
-    setDoc(result)
+  const newDoc = () => {
+    setDocumentation("");
+    setCode("//Enter Your API code here...");
   }
 
   useEffect(() => {
+    const fetchData = async () => {
+      const historyData = await fetchDocHistory();
+      setHistory(historyData);
+    }
 
-    let token = cookies.get("token") || localStorage.getItem("token");
+    fetchData();
+  }, [setHistory]);
 
-    const fetchDocHistory = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_REQUEST_TO_URL}/api/projects/get-all-document`, {
-          method: "POST",
-          headers: {
-            "Authorization": `${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const result = await response.json();
-        setDocumentHistory(result.data.Document || []);
-      } catch (error) {
-        console.error("Error fetching document history: ", error);
-      }
-    };
+  const changeDocumentContent = async (doc) => {
+    const data = await openDoc(doc.documentId);
 
-    fetchDocHistory();
-  }, []);
+    let markdownContent = data.data.Document.documentContent;
+    markdownContent = markdownContent.replaceAll("```json", "\n\n```json");
+
+    setDocumentation(markdownContent);
+    setCode(data.data.Document.referedCode);
+  }
 
   return (
     <div className={`sidebar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <div className="sidebar-header" onClick={toggleCollapse}>
         <img src='/public/favicon1/favicon-16x16.png' />
+        <b style={{ display: `${isCollapsed ? "none" : "block"}` }}>DocuZen</b>
         <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
           <g id="SVGRepo_iconCarrier">
             <path d="M4 18L20 18" stroke="#fff" strokeWidth="2" strokeLinecap="round"></path>
@@ -88,28 +68,26 @@ const SideBar = ({ setDoc }) => {
         <div className="sidebar-section">
           <div className="sidebar-item" onClick={toggleHistory}>
             <FaHistory />
-            <span className="item-text">History</span>
+            <span className="item-text">Documents</span>
             {isHistoryOpen ? <FaChevronUp className="collapse-icon" /> : <FaChevronDown className="collapse-icon" />}
           </div>
-          {isHistoryOpen && (
-            <div className="history-content">
-              {
-                documentHistory.length > 0
-                  ?
-                  (
-                    documentHistory.map((doc) => (
-                      <div key={doc.documentId} onClick={() => handleOpenDoc(doc.documentId)} data-doc-id={doc.documentId}>
-                        <span>
-                          {doc.documentName}
-                        </span>
-                      </div>
-                    ))
-                  )
-                  :
-                  <div>No document created</div>
-              }
-            </div>
-          )}
+          <div className="history-content">
+            {isHistoryOpen && (
+              history.length > 0
+                ?
+                (
+                  history.map((doc) => (
+                    <div key={doc.documentId} onClick={() => { changeDocumentContent(doc) }} data-doc-id={doc.documentId}>
+                      <span>
+                        {doc.documentName}
+                      </span>
+                    </div>
+                  ))
+                )
+                :
+                <div>No document created</div>
+            )}
+          </div>
         </div>
 
       </div>
@@ -117,8 +95,5 @@ const SideBar = ({ setDoc }) => {
   );
 };
 
-SideBar.propTypes = {
-  setDoc: PropTypes.func
-}
 
 export default SideBar;

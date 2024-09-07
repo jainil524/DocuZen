@@ -1,9 +1,10 @@
-import IndexTemplete from "./templete/IndexTemplete";
+import IndexTemplate from "./template/IndexTemplate";
 import { Route, Routes } from 'react-router-dom';
 import Login from "./Login"
 import Register from './Register';
 
 import HomeIndex from './Components/Home/Index';
+import DocumentProvider from "./Components/Provider/DocumentProvider";
 
 
 const App = () => {
@@ -13,7 +14,11 @@ const App = () => {
         <Route path="/" element={<HomeIndex />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<IndexTemplete />} />
+        <Route path="/home" element={
+          <DocumentProvider>
+            <IndexTemplate />
+          </DocumentProvider>
+        } />
 
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
