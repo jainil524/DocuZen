@@ -1,58 +1,39 @@
-import { useState, useRef, useCallback } from 'react';
 import MarkdownEditor from './MarkdownEditor';
 import CodeEditor from './CodeEditor';
 import ToolBar from './ToolBar/ToolBar';
+import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
+import { useContext, useState } from 'react';
+import { DocumentContext } from './Provider/DocumentProvider';
+import GenerateDocument from '../functionality/generateDocument';
 
 export default function ScreenWrapper() {
-    // State to manage column widths
-    const [leftColumnWidth, setLeftColumnWidth] = useState(50);
-    const [rightColumnWidth, setRightColumnWidth] = useState(50);
+    const [isGenerating, setIsGenerating] = useState(false);
+    const { setDocumentation, editorRef } = useContext(DocumentContext);
+    const generate = async () => {
+        setIsGenerating(true);
 
-    // Ref for the resizer
-    const resizerRef = useRef(null);
+        const data = await GenerateDocument(editorRef);
+        setDocumentation(data.data.markdownContent);
 
-    // Mouse move handler to adjust column width
-    const handleMouseMove = useCallback((e) => {
-        const newLeftWidth = ((e.clientX / window.innerWidth) * 100);
-        const newRightWidth = 100 - newLeftWidth;
-
-        setLeftColumnWidth(newLeftWidth);
-        setRightColumnWidth(newRightWidth);
-    }, []);
-
-    // Mouse down handler to start resizing
-    const handleMouseDown = useCallback(() => {
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-    }, [handleMouseMove]);
-
-    // Mouse up handler to stop resizing
-    const handleMouseUp = useCallback(() => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-    }, [handleMouseMove]);
-
-
+        setIsGenerating(false);
+    }
     return (
         <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
             <ToolBar />
-            <div className="screen-wrapper"
-                style={{
-                    display: 'grid',
-                    gap: "0",
-                    background: "#1e1e1e",
-                    gridTemplateColumns: `${leftColumnWidth}% ${resizerRef.current ? 'auto' : '.5rem'} ${rightColumnWidth}%`,
-                    gridAutoFlow: "column", height: 'calc(100% - 5.2%)'
-                }}>
-                <CodeEditor />
-                <div
-                    className='resizer'
-                    style={{ cursor: "ew-resize", background: "#1e1e1e", width: '5px', }}
-                    ref={resizerRef}
-                    onMouseDown={handleMouseDown}
-                ></div>
-                <MarkdownEditor />
-            </div>
+            <PanelGroup direction="horizontal">
+                <Panel defaultSize={50}>
+                    <CodeEditor />
+                </Panel>
+                <PanelResizeHandle />
+                <Panel style={{ height: "100%" }}>
+                    <MarkdownEditor />
+                </Panel>
+            </PanelGroup>
+
+            <button style={{ display: "flex", gap: ".4rem", alignItems: "center" }} className='generate-doc-btn' onClick={generate}>
+                <img width="18px" height="18px" src="/public/ai-technology.png" />
+                {isGenerating ? "Generating..." : "Generate Document"}
+            </button>
         </div>
     );
 }

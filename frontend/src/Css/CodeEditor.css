@@ -6,7 +6,7 @@
 
 .generate-doc-btn {
     position: fixed;
-    bottom: 2rem;
-    right: 50rem;
+    bottom: 3rem;
+    right: 1rem;
     z-index: 20;
 }

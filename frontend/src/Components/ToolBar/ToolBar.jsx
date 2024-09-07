@@ -6,7 +6,7 @@ import { marked } from 'marked';
 import htmlToPdfmake from "html-to-pdfmake";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { FaDownload, FaFilePdf } from 'react-icons/fa';
+import { FaCopy, FaDownload, FaFilePdf } from 'react-icons/fa';
 import './ToolBar.css';
 import { DocumentContext } from '../Provider/DocumentProvider';
 import saveDocument from '../../functionality/saveDocument';
@@ -69,6 +69,11 @@ const ToolBar = () => {
     setIsEditing(false);
   };
 
+  const copyText = () => {
+    const code = mdxRef.current?.getMarkdown();
+    navigator.clipboard.writeText(code);
+  }
+
   return (
     <div className="toolbar">
       <input
@@ -101,6 +106,10 @@ const ToolBar = () => {
           <Dropdown.Item onClick={handleDownloadPDF}>
             <FaFilePdf style={{ marginRight: '5px' }} />
             PDF
+          </Dropdown.Item>
+          <Dropdown.Item onClick={copyText}>
+            <FaCopy style={{ marginRight: '5px' }} />
+            Copy
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
