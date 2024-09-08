@@ -72,8 +72,9 @@ const ToolBar = ({ onSave, mdxRef }) => {
   // Handle save
   const handleSave = useCallback(() => {
 
-    let result = onSave(title, content); // Pass title to onSave callback
-
+    let result = onSave(document.querySelector(".toolbar input").value, content); // Pass title to onSave callback
+    console.log(title, content);
+    
     console.log(result);
 
   }, [content]);
@@ -81,6 +82,7 @@ const ToolBar = ({ onSave, mdxRef }) => {
   // Handle title blur to stop editing
   const handleBlur = () => {
     setIsEditing(false);
+    setTitle(document.querySelector(".toolbar input").value)
   };
 
   return (
