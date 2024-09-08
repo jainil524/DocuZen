@@ -9,3 +9,5 @@ export default function generateUniqueID(len = 10) {
 
     return result;
 }
+
+console.log(generateUniqueID(64));

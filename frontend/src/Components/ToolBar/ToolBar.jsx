@@ -67,6 +67,7 @@ const ToolBar = () => {
   // Handle title blur to stop editing
   const handleBlur = () => {
     setIsEditing(false);
+    setTitle(document.querySelector(".toolbar input").value)
   };
 
   const copyText = () => {
