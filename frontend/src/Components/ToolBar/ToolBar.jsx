@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import { saveAs } from 'file-saver';
 import { marked } from 'marked';
-import htmlToPdfmake from 'html-to-pdfmake';
+import htmlToPdfmake from "html-to-pdfmake";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { FaDownload, FaFilePdf } from 'react-icons/fa';
@@ -31,6 +31,9 @@ const ToolBar = ({ onSave, mdxRef }) => {
 
   // Handle title change
   const handleTitleChange = (e) => {
+
+    console.log("hello");
+
     setTitle(e.target.value);
   };
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -71,13 +74,10 @@ const ToolBar = ({ onSave, mdxRef }) => {
 
   // Handle save
   const handleSave = useCallback(() => {
+    let result = onSave(title, content); // Pass title to onSave callback
 
-    let result = onSave(document.querySelector(".toolbar input").value, content); // Pass title to onSave callback
-    console.log(title, content);
-    
     console.log(result);
-
-  }, [content]);
+  }, [content, title]);
 
   // Handle title blur to stop editing
   const handleBlur = () => {

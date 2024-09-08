@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
   FaHistory,
-  FaFile,
   FaChevronDown,
   FaChevronUp
 } from 'react-icons/fa';
 import Cookies from "universal-cookie";
-import './Sidebar.css'; // Optional: Add your custom styles here
+import './SideBar.css'; // Optional: Add your custom styles here
 
 const SideBar = ({ setDoc }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -21,11 +20,13 @@ const SideBar = ({ setDoc }) => {
   const toggleHistory = () => {
     setIsHistoryOpen(!isHistoryOpen);
   };
-
+  const newDoc = async () => {
+    setDoc([]);
+  }
   const handleOpenDoc = async (docId) => {
     let token = cookies.get("token") || localStorage.getItem("token");
 
-    let response = await fetch(`http://localhost:3000/api/projects/getdocwhole`, {
+    let response = await fetch(`${import.meta.env.REQUEST_TO_URL}/api/projects/getdocwhole`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +49,7 @@ const SideBar = ({ setDoc }) => {
 
     const fetchDocHistory = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/projects/get-all-document", {
+        const response = await fetch(`${process.env.REQUEST_TO_URL}:${process.env.BACKEND_PORT}/api/projects/get-all-document`, {
           method: "POST",
           headers: {
             "Authorization": `${token}`,
@@ -79,10 +80,9 @@ const SideBar = ({ setDoc }) => {
       </div>
       <div className={`sidebar-menu ${isCollapsed ? 'hidden' : 'visible'}`}>
 
-        <a href="#create-new" className="sidebar-item">
-          <FaFile />
+        <div className="sidebar-item" onClick={newDoc}>
           <span className="item-text">New Document</span>
-        </a>
+        </div>
 
         <div className="sidebar-section">
           <div className="sidebar-item" onClick={toggleHistory}>
@@ -97,7 +97,7 @@ const SideBar = ({ setDoc }) => {
                   ?
                   (
                     documentHistory.map((doc) => (
-                      <div key={doc.documentId} onClick={() => handleOpenDoc(doc.documentId)} data-docId={doc.documentId}>
+                      <div key={doc.documentId} onClick={() => handleOpenDoc(doc.documentId)} data-doc-id={doc.documentId}>
                         <span>
                           {doc.documentName}
                         </span>

@@ -13,13 +13,17 @@ export default function ScreenWrapper({ doc }) {
     const cookies = new Cookies();
 
     useEffect(() => {
-
         if (doc.length != 0) {
             let markdownContent = doc.data.Document.documentContent;
             markdownContent = markdownContent.replaceAll("```json", "\n\n```json");
             mdxRef?.current.insertMarkdown(markdownContent);
             mdxRef?.current.setMarkdown(markdownContent);
             editorRef?.current.getModel().setValue(doc.data.Document.referedCode)
+        }
+        else {
+            mdxRef?.current.insertMarkdown("");
+            mdxRef?.current.setMarkdown("");
+            editorRef?.current.getModel().setValue("")
         }
     }, [doc])
 
@@ -67,10 +71,9 @@ export default function ScreenWrapper({ doc }) {
     }, [mdxRef]);
 
     const handleSave = (async (title) => {
-
         const token = cookies.get('token') || localStorage.getItem("token");
 
-        let response = await fetch("http://localhost:3000/api/projects/create-document", {
+        let response = await fetch(`${import.meta.env.REQUEST_TO_URL}/api/projects/create-document`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
